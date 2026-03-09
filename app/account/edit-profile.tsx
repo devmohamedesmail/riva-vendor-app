@@ -176,7 +176,6 @@ export default function EditProfile() {
             }
 
         } catch (error: any) {
-            console.error('Error fetching profile:', error)
             Toast.show({
                 type: 'error',
                 text1: t('common.error'),

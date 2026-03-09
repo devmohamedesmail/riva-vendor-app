@@ -14,6 +14,7 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useColorScheme } from "nativewind";
 import React, { useMemo, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
+
 import {
   ActivityIndicator,
   FlatList,
@@ -123,7 +124,7 @@ export default function Categories() {
             </Text>
           </View>
         </View>
-
+  
         {/* Assigned categories grid */}
         {isLoadingAssigned ? (
           <Loading />
@@ -193,8 +194,9 @@ export default function Categories() {
             <FlatList
               data={filteredCategories}
               keyExtractor={(item) => item.id.toString()}
-              style={{ flex: 1 }}
-              contentContainerStyle={{ paddingBottom: 12 }}
+              // style={{ flex: 1 }}
+              style={{ flexGrow: 1 }}
+              contentContainerStyle={{ paddingBottom: 80 }}
               ListEmptyComponent={
                 <Text className="text-center text-sm text-gray-400 mt-6">
                   {t("categories.no_categories_found")}
@@ -270,7 +272,7 @@ export default function Categories() {
           <TouchableOpacity
             onPress={() => assignMutation.mutate(selectedIds)}
             disabled={assignMutation.isPending}
-            className="bg-primary rounded-xl py-3.5 items-center mt-2 mb-3"
+            className="bg-primary rounded-xl py-3.5 items-center mt-2 mb-3 "
             style={assignMutation.isPending ? { opacity: 0.7 } : undefined}
           >
             {assignMutation.isPending ? (

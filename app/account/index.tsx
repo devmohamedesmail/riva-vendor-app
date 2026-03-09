@@ -23,21 +23,6 @@ export default function Account() {
     const { settings } = useSetting();
     const { toggleLanguage } = useLanguage();
 
-
-
-    // const toggleLanguage = async () => {
-    //     const newLang = isArabic ? 'en' : 'ar';
-    //     const isRTL = newLang === 'ar';
-
-    //     i18n.changeLanguage(newLang);
-    //     await saveLanguage(newLang);
-
-    //     if (I18nManager.isRTL !== isRTL) {
-    //         I18nManager.allowRTL(isRTL);
-    //         I18nManager.forceRTL(isRTL);
-    //     }
-    //     // await Updates.reloadAsync();
-    // };
     return (
         <Layout>
             <Header title={t('account.account')} />
