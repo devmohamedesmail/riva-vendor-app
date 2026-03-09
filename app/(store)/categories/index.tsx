@@ -23,6 +23,7 @@ import {
   Text,
   TextInput,
   TouchableOpacity,
+  ScrollView,
   View,
 } from "react-native";
 import Toast from "react-native-toast-message";
@@ -187,6 +188,7 @@ export default function Categories() {
             </Text>
           )}
 
+
           {/* List */}
           {isLoadingAll ? (
             <ActivityIndicator color="#fd4a12" style={{ marginTop: 20 }} />
@@ -271,7 +273,7 @@ export default function Categories() {
           <TouchableOpacity
             onPress={() => assignMutation.mutate(selectedIds)}
             disabled={assignMutation.isPending}
-            className="bg-primary rounded-xl py-3.5 items-center mt-2 mb-20 "
+            className="bg-primary rounded-xl py-3.5 items-center mt-2 mb-10 "
             style={assignMutation.isPending ? { opacity: 0.7 } : undefined}
           >
             {assignMutation.isPending ? (

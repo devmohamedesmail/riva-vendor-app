@@ -27,9 +27,9 @@ const BottomPaper = forwardRef<BottomSheet, BottomPaperProps>(
           backgroundColor: colorScheme === 'dark' ? '#fff' : '#000',
         }}
       >
-        <View style={{ flex: 1 }}>
+        {/* <View style={{ flex: 1 }}> */}
           {children}
-        </View>
+        {/* </View> */}
       </BottomSheet>
     );
   }
