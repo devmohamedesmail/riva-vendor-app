@@ -9,7 +9,7 @@ import CategoryController from "@/controllers/categories/contoller";
 import { useAuth } from "@/hooks/useAuth";
 import { useStore } from "@/hooks/useStore";
 import { AntDesign, Ionicons } from "@expo/vector-icons";
-import BottomSheet from "@gorhom/bottom-sheet";
+import BottomSheet, { BottomSheetFlatList } from "@gorhom/bottom-sheet";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useColorScheme } from "nativewind";
 import React, { useMemo, useRef, useState } from "react";
@@ -124,7 +124,7 @@ export default function Categories() {
             </Text>
           </View>
         </View>
-  
+
         {/* Assigned categories grid */}
         {isLoadingAssigned ? (
           <Loading />
@@ -191,18 +191,17 @@ export default function Categories() {
           {isLoadingAll ? (
             <ActivityIndicator color="#fd4a12" style={{ marginTop: 20 }} />
           ) : (
-            <FlatList
+            <BottomSheetFlatList
               data={filteredCategories}
-              keyExtractor={(item) => item.id.toString()}
-              // style={{ flex: 1 }}
-              style={{ flexGrow: 1 }}
-              contentContainerStyle={{ paddingBottom: 80 }}
+              keyExtractor={(item: Category) => item.id.toString()}
+              style={{ flex: 1 }}
+              contentContainerStyle={{ paddingBottom: 20 }}
               ListEmptyComponent={
                 <Text className="text-center text-sm text-gray-400 mt-6">
                   {t("categories.no_categories_found")}
                 </Text>
               }
-              renderItem={({ item }) => {
+              renderItem={({ item }: { item: Category }) => {
                 const isSelected = selectedIds.includes(item.id);
                 return (
                   <TouchableOpacity
@@ -272,7 +271,7 @@ export default function Categories() {
           <TouchableOpacity
             onPress={() => assignMutation.mutate(selectedIds)}
             disabled={assignMutation.isPending}
-            className="bg-primary rounded-xl py-3.5 items-center mt-2 mb-3 "
+            className="bg-primary rounded-xl py-3.5 items-center mt-2 mb-20 "
             style={assignMutation.isPending ? { opacity: 0.7 } : undefined}
           >
             {assignMutation.isPending ? (
