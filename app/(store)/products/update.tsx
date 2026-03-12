@@ -4,6 +4,7 @@ import CustomImagePicker from "@/components/ui/image-picker";
 import Input from "@/components/ui/input";
 import Layout from "@/components/ui/layout";
 import Select from "@/components/ui/select";
+import TextArea from "@/components/ui/textarea";
 import { config } from "@/constants/config";
 import { AuthContext } from "@/context/auth-provider";
 import ProductController from "@/controllers/products/controller";
@@ -12,9 +13,10 @@ import { useStore } from "@/hooks/useStore";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useLocalSearchParams, useRouter } from "expo-router";
 import { useFormik } from "formik";
+import { useColorScheme } from "nativewind";
 import React, { useContext, useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { ScrollView, Text, View } from "react-native";
+import { ScrollView, Switch, Text, View } from "react-native";
 import Toast from "react-native-toast-message";
 import * as Yup from "yup";
 
@@ -24,7 +26,7 @@ interface Category {
   description: string;
 }
 
-export default function Update() {
+export default function UpdateProduct() {
   const params = useLocalSearchParams();
 
   // Re-derive product whenever the params change (fixes "always shows last product" bug)
@@ -35,6 +37,8 @@ export default function Update() {
 
   const { t } = useTranslation();
   const { auth } = useContext(AuthContext);
+  const { colorScheme } = useColorScheme();
+  const isDark = colorScheme === "dark";
 
   // Initialize attribute state from product
   const [attributeValues, setAttributeValues] = useState<Array<{ attribute_id: string; value: string; price: string }>>(() => {
@@ -66,6 +70,7 @@ export default function Update() {
         image: product.image || "",
         attribute_value: "",
         attribute_price: "",
+        is_simple: product.product_type ? product.product_type === "simple" : (!product.attributes || product.attributes.length === 0),
       },
     });
     if (product.attributes && product.attributes.length > 0) {
@@ -148,14 +153,26 @@ export default function Update() {
       image: product?.image || "",
       attribute_value: "",
       attribute_price: "",
+      is_simple: product?.product_type ? product.product_type === "simple" : (!product?.attributes || product?.attributes?.length === 0),
     },
     validationSchema: Yup.object({
       name: Yup.string().required(t("products.name_required")),
       price: Yup.number()
-        .required(t("products.price_required"))
-        .positive(t("products.price_positive")),
+        .transform((value, originalValue) =>
+          originalValue === "" ? undefined : value
+        )
+        .when("is_simple", ([isSimple], schema) =>
+          isSimple
+            ? schema
+              .required(t("products.price_required"))
+              .positive(t("products.price_positive"))
+            : schema.optional()
+        ),
       sale_price: Yup.number()
         .nullable()
+        .transform((value, originalValue) =>
+          originalValue === "" ? undefined : value
+        )
         .positive(
           t("products.price_positive", {
             defaultValue: "Price must be positive",
@@ -169,17 +186,27 @@ export default function Update() {
 
         // Create FormData for image upload
         const formData = new FormData();
-        formData.append("store_id", store.id);
+        formData.append("store_id", store.id.toString());
         formData.append("name", values.name);
-        formData.append("description", values.description);
-        formData.append("price", values.price);
-        if (values.sale_price) {
-          formData.append("sale_price", values.sale_price);
+        if (values.description) {
+          formData.append("description", values.description);
         }
+
+        if (values.is_simple) {
+          formData.append("price", values.price || "0");
+          if (values.sale_price) {
+            formData.append("sale_price", values.sale_price);
+          }
+        }
+
+        formData.append(
+          "product_type",
+          values.is_simple ? "simple" : "variable"
+        );
         formData.append("category_id", values.category_id);
 
         // Add attributes and values
-        if (selectedAttributeId && attributeValues.length > 0) {
+        if (!values.is_simple && selectedAttributeId && attributeValues.length > 0) {
           // Send as array notation for FormData
           formData.append("attributes[]", selectedAttributeId);
 
@@ -273,17 +300,16 @@ export default function Update() {
 
 
 
-          {/* Price */}
+          {/* Description */}
           <View className="mb-4">
-            <Input
-              label={t("products.price")}
-              placeholder={t("products.enter_price")}
-              value={formik.values.price}
-              onChangeText={formik.handleChange("price")}
-              keyboardType="numeric"
+            <TextArea
+              label={t("products.product_description")}
+              placeholder={t("products.enter_product_description")}
+              value={formik.values.description}
+              onChangeText={formik.handleChange("description")}
               error={
-                formik.touched.price && typeof formik.errors.price === "string"
-                  ? formik.errors.price
+                formik.touched.description && typeof formik.errors.description === "string"
+                  ? formik.errors.description
                   : ""
               }
             />
@@ -326,133 +352,205 @@ export default function Update() {
           </View>
 
 
-          <View className="mb-4">
-            <Select
-              label={t("products.attribute")}
-              placeholder={t("products.select_attribute")}
-              options={(attributesData?.attributes || []).map((attr: any) => ({
-                label: attr.name,
-                value: attr.id.toString()
-              }))}
-              value={selectedAttributeId}
-              onSelect={(value: string) => {
-                setSelectedAttributeId(value);
-                setAttributeValues([]);
-              }}
-            />
+          {/* Simple / Variable toggle */}
+          <View
+            className="mb-6 p-4 rounded-xl border"
+            style={{
+              backgroundColor: isDark ? "#1a1a1a" : "#fff",
+              borderColor: isDark ? "#2a2a2a" : "#e5e7eb",
+            }}
+          >
+            <View className="flex-row items-center justify-between">
+              <View className="flex-1 pr-4">
+                <Text
+                  className="text-base font-semibold mb-1"
+                  style={{ color: isDark ? "#fff" : "#111827" }}
+                >
+                  {t("products.simple_product")}
+                </Text>
+                <Text
+                  className="text-xs"
+                  style={{ color: isDark ? "#888" : "#6b7280" }}
+                >
+                  {formik.values.is_simple
+                    ? t("products.simple_product_description")
+                    : t("products.variable_product_description")}
+                </Text>
+              </View>
+              <Switch
+                value={formik.values.is_simple}
+                onValueChange={(value) => {
+                  formik.setFieldValue("is_simple", value);
+                  if (!value) {
+                    setSelectedAttributeId("");
+                    setAttributeValues([]);
+                  }
+                }}
+                trackColor={{ false: "#3b82f6", true: "#10b981" }}
+                thumbColor="#ffffff"
+                ios_backgroundColor="#d1d5db"
+              />
+            </View>
           </View>
 
-          {/* Attribute Values Section */}
-          {selectedAttributeId && (
+          {/* Price / Attributes */}
+          {formik.values.is_simple ? (
             <View className="mb-4">
-              <Text className="text-sm font-medium text-gray-700 mb-2" style={{ fontFamily: "Cairo_400Regular" }}>
-                {t("products.attribute_values", { defaultValue: "Attribute Values" })}
-              </Text>
+              <Input
+                label={t("products.price")}
+                placeholder={t("products.enter_price")}
+                value={formik.values.price}
+                onChangeText={formik.handleChange("price")}
+                keyboardType="numeric"
+                error={
+                  formik.touched.price && typeof formik.errors.price === "string"
+                    ? formik.errors.price
+                    : ""
+                }
+              />
 
-              {/* Dynamic Attribute Value Inputs */}
-              {attributeValues.map((attrValue, index) => (
-                <View key={index} className="mb-3 p-3 bg-white rounded-lg border border-gray-200">
-                  <View className="flex-row justify-between items-center mb-2">
-                    <Text className="text-xs text-gray-600" style={{ fontFamily: "Cairo_400Regular" }}>
-                      {t("products.value_item", { defaultValue: "Value" })} {index + 1}
-                    </Text>
-                    <Button
-                      title={t("products.remove", { defaultValue: "Remove" })}
-                      onPress={() => {
-                        const newValues = attributeValues.filter((_, i) => i !== index);
-                        setAttributeValues(newValues);
-                      }}
-                      className="bg-red-500 py-1 px-3"
-                    />
-                  </View>
-                  <View className="mb-2">
-                    <Input
-                      label={t("products.value", { defaultValue: "Value" })}
-                      placeholder={t("products.enter_value", { defaultValue: "Enter value (e.g., XL, Red)" })}
-                      value={attrValue.value}
-                      onChangeText={(text) => {
-                        const newValues = [...attributeValues];
-                        newValues[index].value = text;
-                        setAttributeValues(newValues);
-                      }}
-                    />
-                  </View>
-                  <View>
-                    <Input
-                      label={t("products.extra_price", { defaultValue: "Extra Price" })}
-                      placeholder={t("products.enter_extra_price", { defaultValue: "Enter extra price" })}
-                      value={attrValue.price}
-                      onChangeText={(text) => {
-                        const newValues = [...attributeValues];
-                        newValues[index].price = text;
-                        setAttributeValues(newValues);
-                      }}
-                      keyboardType="numeric"
-                    />
-                  </View>
-                </View>
-              ))}
-
-              {/* Add New Value Inputs */}
-              <View className="mb-3 p-3 bg-gray-50 rounded-lg">
-                <View className="mb-2">
-                  <Input
-                    label={t("products.value", { defaultValue: "Value" })}
-                    placeholder={t("products.enter_value", { defaultValue: "Enter value (e.g., XL, Red)" })}
-                    value={formik.values.attribute_value}
-                    onChangeText={formik.handleChange("attribute_value")}
-                  />
-                </View>
-                <View className="mb-3">
-                  <Input
-                    label={t("products.extra_price", { defaultValue: "Extra Price" })}
-                    placeholder={t("products.enter_extra_price", { defaultValue: "Enter extra price" })}
-                    value={formik.values.attribute_price}
-                    onChangeText={formik.handleChange("attribute_price")}
-                    keyboardType="numeric"
-                  />
-                </View>
-                <Button
-                  title={t("products.add_value", { defaultValue: "+ Add Value" })}
-                  onPress={() => {
-                    if (formik.values.attribute_value && formik.values.attribute_price) {
-                      setAttributeValues([
-                        ...attributeValues,
-                        {
-                          attribute_id: selectedAttributeId,
-                          value: formik.values.attribute_value,
-                          price: formik.values.attribute_price
-                        }
-                      ]);
-                      formik.setFieldValue("attribute_value", "");
-                      formik.setFieldValue("attribute_price", "");
-                    } else {
-                      Toast.show({
-                        type: "error",
-                        text1: t("products.fill_all_fields", { defaultValue: "Please fill all fields" }),
-                      });
-                    }
-                  }}
-                  className="bg-blue-500"
+              <View className="mt-4">
+                <Input
+                  label={t("products.sale_price")}
+                  placeholder={t("products.enter_sale_price")}
+                  value={formik.values.sale_price}
+                  onChangeText={formik.handleChange("sale_price")}
+                  keyboardType="numeric"
+                  error={
+                    formik.touched.sale_price && typeof formik.errors.sale_price === "string"
+                      ? formik.errors.sale_price
+                      : ""
+                  }
                 />
               </View>
             </View>
+          ) : (
+            <>
+              <View className="mb-4">
+                <Select
+                  label={t("products.attribute")}
+                  placeholder={t("products.select_attribute")}
+                  options={(attributesData?.attributes || []).map((attr: any) => ({
+                    label: attr.name,
+                    value: attr.id.toString()
+                  }))}
+                  value={selectedAttributeId}
+                  onSelect={(value: string) => {
+                    setSelectedAttributeId(value);
+                    setAttributeValues([]);
+                  }}
+                />
+              </View>
+
+              {/* Attribute Values Section */}
+              {selectedAttributeId && (
+                <View className="mb-4">
+                  <Text className="text-sm font-medium text-gray-700 mb-2" style={{ fontFamily: "Cairo_400Regular" }}>
+                    {t("products.attribute_values", { defaultValue: "Attribute Values" })}
+                  </Text>
+
+                  {/* Dynamic Attribute Value Inputs */}
+                  {attributeValues.map((attrValue, index) => (
+                    <View key={index} className="mb-3 p-3 bg-white rounded-lg border border-gray-200">
+                      <View className="flex-row justify-between items-center mb-2">
+                        <Text className="text-xs text-gray-600" style={{ fontFamily: "Cairo_400Regular" }}>
+                          {t("products.value_item", { defaultValue: "Value" })} {index + 1}
+                        </Text>
+                        <Button
+                          title={t("products.remove", { defaultValue: "Remove" })}
+                          onPress={() => {
+                            const newValues = attributeValues.filter((_, i) => i !== index);
+                            setAttributeValues(newValues);
+                          }}
+                          className="bg-red-500 py-1 px-3"
+                        />
+                      </View>
+                      <View className="mb-2">
+                        <Input
+                          label={t("products.value", { defaultValue: "Value" })}
+                          placeholder={t("products.enter_value", { defaultValue: "Enter value (e.g., XL, Red)" })}
+                          value={attrValue.value}
+                          onChangeText={(text) => {
+                            const newValues = [...attributeValues];
+                            newValues[index].value = text;
+                            setAttributeValues(newValues);
+                          }}
+                        />
+                      </View>
+                      <View>
+                        <Input
+                          label={t("products.extra_price", { defaultValue: "Extra Price" })}
+                          placeholder={t("products.enter_extra_price", { defaultValue: "Enter extra price" })}
+                          value={attrValue.price}
+                          onChangeText={(text) => {
+                            const newValues = [...attributeValues];
+                            newValues[index].price = text;
+                            setAttributeValues(newValues);
+                          }}
+                          keyboardType="numeric"
+                        />
+                      </View>
+                    </View>
+                  ))}
+
+                  {/* Add New Value Inputs */}
+                  <View className="mb-3 p-3 bg-gray-50 rounded-lg">
+                    <View className="mb-2">
+                      <Input
+                        label={t("products.value", { defaultValue: "Value" })}
+                        placeholder={t("products.enter_value", { defaultValue: "Enter value (e.g., XL, Red)" })}
+                        value={formik.values.attribute_value}
+                        onChangeText={formik.handleChange("attribute_value")}
+                      />
+                    </View>
+                    <View className="mb-3">
+                      <Input
+                        label={t("products.extra_price", { defaultValue: "Extra Price" })}
+                        placeholder={t("products.enter_extra_price", { defaultValue: "Enter extra price" })}
+                        value={formik.values.attribute_price}
+                        onChangeText={formik.handleChange("attribute_price")}
+                        keyboardType="numeric"
+                      />
+                    </View>
+                    <Button
+                      title={t("products.add_value", { defaultValue: "+ Add Value" })}
+                      onPress={() => {
+                        if (formik.values.attribute_value && formik.values.attribute_price) {
+                          setAttributeValues([
+                            ...attributeValues,
+                            {
+                              attribute_id: selectedAttributeId,
+                              value: formik.values.attribute_value,
+                              price: formik.values.attribute_price
+                            }
+                          ]);
+                          formik.setFieldValue("attribute_value", "");
+                          formik.setFieldValue("attribute_price", "");
+                        } else {
+                          Toast.show({
+                            type: "error",
+                            text1: t("products.fill_all_fields", { defaultValue: "Please fill all fields" }),
+                          });
+                        }
+                      }}
+                      className="bg-blue-500"
+                    />
+                  </View>
+                </View>
+              )}
+            </>
           )}
 
           {/* Submit Button */}
           <Button
-            // title={
-            //   formik.isSubmitting ? t("products.saving") : t("products.save")
-            // }
-            // onPress={formik.handleSubmit}
-            // disabled={formik.isSubmitting}
+
             title={
-    updateMutation.isPending
-      ? t("products.saving")
-      : t("products.save")
-  }
-  onPress={formik.handleSubmit}
-  disabled={updateMutation.isPending}
+              updateMutation.isPending
+                ? t("products.saving")
+                : t("products.save")
+            }
+            onPress={formik.handleSubmit}
+            disabled={updateMutation.isPending}
           />
         </View>
       </ScrollView>

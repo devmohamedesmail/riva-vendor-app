@@ -87,6 +87,8 @@ export default function AddProduct() {
       formik.resetForm();
       formik.setFieldValue("image", "");
       setSelectedCategory(null);
+      setSelectedAttributeId("");
+      setAttributeValues([]);
     },
     onError: (error) => {
       console.log("error add product", error);
@@ -160,6 +162,15 @@ export default function AddProduct() {
         } as any);
       }
 
+
+      if (!values.is_simple && selectedAttributeId && attributeValues.length > 0) {
+        formData.append("attributes[]", selectedAttributeId);
+        attributeValues.forEach((av, index) => {
+          formData.append(`values[${index}][attribute_id]`, av.attribute_id);
+          formData.append(`values[${index}][value]`, av.value);
+          formData.append(`values[${index}][price]`, av.price);
+        });
+      }
       createMutation.mutate(formData);
     },
   });
@@ -294,7 +305,7 @@ export default function AddProduct() {
                 <View className="mb-6">
                   <CustomImagePicker
                     label={t("products.product_image")}
-                    value={formik.values.image }
+                    value={formik.values.image}
                     onImageSelect={(uri: string) =>
                       formik.setFieldValue("image", uri)
                     }
@@ -334,6 +345,7 @@ export default function AddProduct() {
                         if (!value) {
                           setSelectedAttributeId("");
                           setAttributeValues([]);
+                          formik.setFieldValue("has_attributes", false);
                         }
                       }}
                       trackColor={{ false: "#3b82f6", true: "#10b981" }}
@@ -508,12 +520,7 @@ export default function AddProduct() {
                 )}
 
                 {/* Submit */}
-                {/* <Button
-                  size="lg"
-                  title={formik.isSubmitting ? t("products.saving") : t("products.save")}
-                  onPress={formik.handleSubmit}
-                  disabled={formik.isSubmitting}
-                /> */}
+
                 <Button
                   size="lg"
                   title={
