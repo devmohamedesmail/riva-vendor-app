@@ -12,7 +12,7 @@ import { useAuth } from "@/hooks/useAuth";
 import useFetch from "@/hooks/useFetch";
 import { useStore } from "@/hooks/useStore";
 import { AntDesign, Ionicons } from "@expo/vector-icons";
-import BottomSheet from "@gorhom/bottom-sheet";
+import BottomSheet, { BottomSheetFlatList } from "@gorhom/bottom-sheet";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useFormik } from "formik";
 import { useColorScheme } from "nativewind";
@@ -20,9 +20,7 @@ import React, { useEffect, useMemo, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import {
   ActivityIndicator,
-  FlatList,
   Image,
-  Keyboard,
   KeyboardAvoidingView,
   Platform,
   ScrollView,
@@ -30,8 +28,7 @@ import {
   Text,
   TextInput,
   TouchableOpacity,
-  TouchableWithoutFeedback,
-  View,
+  View
 } from "react-native";
 import Toast from "react-native-toast-message";
 import * as Yup from "yup";
@@ -91,7 +88,6 @@ export default function AddProduct() {
       setAttributeValues([]);
     },
     onError: (error) => {
-      console.log("error add product", error);
       Toast.show({ type: "error", text1: t("products.failed_to_save_product") });
     },
   });
@@ -163,14 +159,14 @@ export default function AddProduct() {
       }
 
 
-      if (!values.is_simple && selectedAttributeId && attributeValues.length > 0) {
-        formData.append("attributes[]", selectedAttributeId);
-        attributeValues.forEach((av, index) => {
-          formData.append(`values[${index}][attribute_id]`, av.attribute_id);
-          formData.append(`values[${index}][value]`, av.value);
-          formData.append(`values[${index}][price]`, av.price);
-        });
-      }
+      // if (!values.is_simple && selectedAttributeId && attributeValues.length > 0) {
+      //   formData.append("attributes[]", selectedAttributeId);
+      //   attributeValues.forEach((av, index) => {
+      //     formData.append(`values[${index}][attribute_id]`, av.attribute_id);
+      //     formData.append(`values[${index}][value]`, av.value);
+      //     formData.append(`values[${index}][price]`, av.price);
+      //   });
+      // }
       createMutation.mutate(formData);
     },
   });
@@ -195,6 +191,8 @@ export default function AddProduct() {
     !!(formik.touched[field as keyof typeof formik.touched] &&
       formik.errors[field as keyof typeof formik.errors]);
 
+
+
   // ─── Render ─────────────────────────────────────────────────────────────────
   return (
     <>
@@ -203,344 +201,350 @@ export default function AddProduct() {
         behavior={Platform.OS === "ios" ? "padding" : "height"}
         keyboardVerticalOffset={Platform.OS === "ios" ? 80 : 0}
       >
-        <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-          <Layout>
-            <Header title={t("products.add_product")} />
 
-            <ScrollView className="px-4 py-4">
-              <View className="pb-24">
-                {/* Product Name */}
-                <View className="mb-4">
-                  <Input
-                    label={t("products.product_name")}
-                    placeholder={t("products.enter_product_name")}
-                    value={formik.values.name}
-                    onChangeText={formik.handleChange("name")}
-                    error={
-                      formik.touched.name && formik.errors.name
-                        ? formik.errors.name
-                        : ""
-                    }
-                  />
-                </View>
 
-                {/* Description */}
-                <View className="mb-4">
-                  <TextArea
-                    label={t("products.product_description")}
-                    placeholder={t("products.enter_product_description")}
-                    value={formik.values.description}
-                    onChangeText={formik.handleChange("description")}
-                    error={
-                      formik.touched.description && formik.errors.description
-                        ? formik.errors.description
-                        : ""
-                    }
-                  />
-                </View>
+        {/* <TouchableWithoutFeedback onPress={Keyboard.dismiss}> */}
+        <Layout>
+          <Header title={t("products.add_product")} />
 
-                {/* ── Category Picker ──────────────────────────────────── */}
-                <View className="mb-4">
-                  <Text
-                    className="text-sm font-semibold mb-2"
-                    style={{ color: isDark ? "#ccc" : "#374151" }}
-                  >
-                    {t("products.category")}
-                  </Text>
+          <ScrollView className="px-4 py-4">
+            <View className="pb-24">
+              {/* Product Name */}
+              <View className="mb-4">
+                <Input
+                  label={t("products.product_name")}
+                  placeholder={t("products.enter_product_name")}
+                  value={formik.values.name}
+                  onChangeText={formik.handleChange("name")}
+                  error={
+                    formik.touched.name && formik.errors.name
+                      ? formik.errors.name
+                      : ""
+                  }
+                />
+              </View>
 
-                  <TouchableOpacity
-                    onPress={openCategorySheet}
-                    className={`flex-row items-center justify-between px-4 py-3 rounded-xl border ${hasError("category_id")
-                      ? "border-red-400"
-                      : isDark
-                        ? "border-gray-700"
-                        : "border-gray-200"
-                      }`}
-                    style={{
-                      backgroundColor: isDark ? "#1a1a1a" : "#fff",
-                    }}
-                  >
-                    <View className="flex-row items-center gap-2 flex-1">
-                      {selectedCategory?.image ? (
-                        <Image
-                          source={{ uri: selectedCategory.image }}
-                          className="w-8 h-8 rounded-lg"
-                        />
-                      ) : (
-                        <View
-                          className="w-8 h-8 rounded-lg items-center justify-center"
-                          style={{ backgroundColor: isDark ? "#333" : "#fff4f0" }}
-                        >
-                          <Ionicons name="grid-outline" size={16} color="#fd4a12" />
-                        </View>
-                      )}
-                      <Text
-                        className="text-sm flex-1"
-                        style={{
-                          color: selectedCategory
-                            ? isDark ? "#fff" : "#111"
-                            : isDark ? "#666" : "#aaa",
-                        }}
-                      >
-                        {selectedCategory
-                          ? selectedCategory.name
-                          : t("products.select_category")}
-                      </Text>
-                    </View>
-                    <Ionicons
-                      name="chevron-down"
-                      size={18}
-                      color={isDark ? "#666" : "#aaa"}
-                    />
-                  </TouchableOpacity>
 
-                  {hasError("category_id") && (
-                    <Text className="text-red-500 text-xs mt-1">
-                      {formik.errors.category_id}
-                    </Text>
-                  )}
-                </View>
 
-                {/* Product Image */}
-                <View className="mb-6">
-                  <CustomImagePicker
-                    label={t("products.product_image")}
-                    value={formik.values.image}
-                    onImageSelect={(uri: string) =>
-                      formik.setFieldValue("image", uri)
-                    }
-                    placeholder={t("products.tap_to_select_image")}
-                  />
-                </View>
+              {/* Description */}
+              <View className="mb-4">
+                <TextArea
+                  label={t("products.product_description")}
+                  placeholder={t("products.enter_product_description")}
+                  value={formik.values.description}
+                  onChangeText={formik.handleChange("description")}
+                  error={
+                    formik.touched.description && formik.errors.description
+                      ? formik.errors.description
+                      : ""
+                  }
+                />
+              </View>
 
-                {/* Simple / Variable toggle */}
-                <View
-                  className="mb-6 p-4 rounded-xl border"
+              {/* ── Category Picker ──────────────────────────────────── */}
+              <View className="mb-4">
+                <Text
+                  className="text-sm font-semibold mb-2"
+                  style={{ color: isDark ? "#ccc" : "#374151" }}
+                >
+                  {t("products.category")}
+                </Text>
+
+                <TouchableOpacity
+                  onPress={openCategorySheet}
+                  className={`flex-row items-center justify-between px-4 py-3 rounded-xl border ${hasError("category_id")
+                    ? "border-red-400"
+                    : isDark
+                      ? "border-gray-700"
+                      : "border-gray-200"
+                    }`}
                   style={{
                     backgroundColor: isDark ? "#1a1a1a" : "#fff",
-                    borderColor: isDark ? "#2a2a2a" : "#e5e7eb",
                   }}
                 >
-                  <View className="flex-row items-center justify-between">
-                    <View className="flex-1 pr-4">
-                      <Text
-                        className="text-base font-semibold mb-1"
-                        style={{ color: isDark ? "#fff" : "#111827" }}
-                      >
-                        {t("products.simple_product")}
-                      </Text>
-                      <Text
-                        className="text-xs"
-                        style={{ color: isDark ? "#888" : "#6b7280" }}
-                      >
-                        {formik.values.is_simple
-                          ? t("products.simple_product_description")
-                          : t("products.variable_product_description")}
-                      </Text>
-                    </View>
-                    <Switch
-                      value={formik.values.is_simple}
-                      onValueChange={(value) => {
-                        formik.setFieldValue("is_simple", value);
-                        if (!value) {
-                          setSelectedAttributeId("");
-                          setAttributeValues([]);
-                          formik.setFieldValue("has_attributes", false);
-                        }
-                      }}
-                      trackColor={{ false: "#3b82f6", true: "#10b981" }}
-                      thumbColor="#ffffff"
-                      ios_backgroundColor="#d1d5db"
-                    />
-                  </View>
-                </View>
-
-                {/* Price / Attributes */}
-                {formik.values.is_simple ? (
-                  <View className="mb-4">
-                    <Input
-                      label={t("products.price")}
-                      placeholder={t("products.enter_price")}
-                      value={formik.values.price}
-                      onChangeText={formik.handleChange("price")}
-                      keyboardType="numeric"
-                      error={
-                        formik.touched.price && formik.errors.price
-                          ? formik.errors.price
-                          : ""
-                      }
-                    />
-
-                    <Input
-                      label={t("products.sale_price")}
-                      placeholder={t("products.enter_sale_price")}
-                      value={formik.values.sale_price}
-                      onChangeText={formik.handleChange("sale_price")}
-                      keyboardType="numeric"
-                      error={
-                        formik.touched.sale_price && formik.errors.sale_price
-                          ? formik.errors.sale_price
-                          : ""
-                      }
-                    />
-                  </View>
-                ) : (
-                  <>
-                    <View className="mb-4">
-                      <Select
-                        label={t("products.attribute")}
-                        placeholder={t("products.select_attribute")}
-                        options={(attributesData?.attributes || []).map(
-                          (attr: any) => ({
-                            label: attr.name,
-                            value: attr.id.toString(),
-                          })
-                        )}
-                        value={selectedAttributeId}
-                        onSelect={(value: string) => {
-                          setSelectedAttributeId(value);
-                          setAttributeValues([]);
-                          formik.setFieldValue("has_attributes", true);
-                        }}
+                  <View className="flex-row items-center gap-2 flex-1">
+                    {selectedCategory?.image ? (
+                      <Image
+                        source={{ uri: selectedCategory.image }}
+                        className="w-8 h-8 rounded-lg"
                       />
-                    </View>
+                    ) : (
+                      <View
+                        className="w-8 h-8 rounded-lg items-center justify-center"
+                        style={{ backgroundColor: isDark ? "#333" : "#fff4f0" }}
+                      >
+                        <Ionicons name="grid-outline" size={16} color="#fd4a12" />
+                      </View>
+                    )}
+                    <Text
+                      className="text-sm flex-1"
+                      style={{
+                        color: selectedCategory
+                          ? isDark ? "#fff" : "#111"
+                          : isDark ? "#666" : "#aaa",
+                      }}
+                    >
+                      {selectedCategory
+                        ? selectedCategory.name
+                        : t("products.select_category")}
+                    </Text>
+                  </View>
+                  <Ionicons
+                    name="chevron-down"
+                    size={18}
+                    color={isDark ? "#666" : "#aaa"}
+                  />
+                </TouchableOpacity>
 
-                    {selectedAttributeId && (
-                      <View className="mb-4">
-                        <Text
-                          className="text-sm font-medium mb-2"
-                          style={{ color: isDark ? "#ccc" : "#374151" }}
+                {hasError("category_id") && (
+                  <Text className="text-red-500 text-xs mt-1">
+                    {formik.errors.category_id}
+                  </Text>
+                )}
+              </View>
+
+              {/* Product Image */}
+              <View className="mb-6">
+                <CustomImagePicker
+                  label={t("products.product_image")}
+                  value={formik.values.image}
+                  onImageSelect={(uri: string) =>
+                    formik.setFieldValue("image", uri)
+                  }
+                  placeholder={t("products.tap_to_select_image")}
+                />
+              </View>
+
+              {/* Simple / Variable toggle */}
+              <View
+                className="mb-6 p-4 rounded-xl border"
+                style={{
+                  backgroundColor: isDark ? "#1a1a1a" : "#fff",
+                  borderColor: isDark ? "#2a2a2a" : "#e5e7eb",
+                }}
+              >
+                <View className="flex-row items-center justify-between">
+                  <View className="flex-1 pr-4">
+                    <Text
+                      className="text-base font-semibold mb-1"
+                      style={{ color: isDark ? "#fff" : "#111827" }}
+                    >
+                      {t("products.simple_product")}
+                    </Text>
+                    <Text
+                      className="text-xs"
+                      style={{ color: isDark ? "#888" : "#6b7280" }}
+                    >
+                      {formik.values.is_simple
+                        ? t("products.simple_product_description")
+                        : t("products.variable_product_description")}
+                    </Text>
+                  </View>
+                  <Switch
+                    value={formik.values.is_simple}
+                    onValueChange={(value) => {
+                      formik.setFieldValue("is_simple", value);
+                      if (!value) {
+                        setSelectedAttributeId("");
+                        setAttributeValues([]);
+                        formik.setFieldValue("has_attributes", false);
+                      }
+                    }}
+                    trackColor={{ false: "#3b82f6", true: "#10b981" }}
+                    thumbColor="#ffffff"
+                    ios_backgroundColor="#d1d5db"
+                  />
+                </View>
+              </View>
+
+              {/* Price / Attributes */}
+              {formik.values.is_simple ? (
+                <View className="mb-4">
+                  <Input
+                    label={t("products.price")}
+                    placeholder={t("products.enter_price")}
+                    value={formik.values.price}
+                    onChangeText={formik.handleChange("price")}
+                    keyboardType="numeric"
+                    error={
+                      formik.touched.price && formik.errors.price
+                        ? formik.errors.price
+                        : ""
+                    }
+                  />
+
+                  <Input
+                    label={t("products.sale_price")}
+                    placeholder={t("products.enter_sale_price")}
+                    value={formik.values.sale_price}
+                    onChangeText={formik.handleChange("sale_price")}
+                    keyboardType="numeric"
+                    error={
+                      formik.touched.sale_price && formik.errors.sale_price
+                        ? formik.errors.sale_price
+                        : ""
+                    }
+                  />
+                </View>
+              ) : (
+                <>
+                  <View className="mb-4">
+                    <Select
+                      label={t("products.attribute")}
+                      placeholder={t("products.select_attribute")}
+                      options={(attributesData?.attributes || []).map(
+                        (attr: any) => ({
+                          label: attr.name,
+                          value: attr.id.toString(),
+                        })
+                      )}
+                      value={selectedAttributeId}
+                      onSelect={(value: string) => {
+                        setSelectedAttributeId(value);
+                        setAttributeValues([]);
+                        formik.setFieldValue("has_attributes", true);
+                      }}
+                    />
+                  </View>
+
+                  {selectedAttributeId && (
+                    <View className="mb-4">
+                      <Text
+                        className="text-sm font-medium mb-2"
+                        style={{ color: isDark ? "#ccc" : "#374151" }}
+                      >
+                        {t("products.attribute_values")}
+                      </Text>
+
+                      {attributeValues.map((attrValue, index) => (
+                        <View
+                          key={index}
+                          className="mb-3 p-3 rounded-lg border"
+                          style={{
+                            backgroundColor: isDark ? "#1a1a1a" : "#fff",
+                            borderColor: isDark ? "#2a2a2a" : "#e5e7eb",
+                          }}
                         >
-                          {t("products.attribute_values")}
-                        </Text>
-
-                        {attributeValues.map((attrValue, index) => (
-                          <View
-                            key={index}
-                            className="mb-3 p-3 rounded-lg border"
-                            style={{
-                              backgroundColor: isDark ? "#1a1a1a" : "#fff",
-                              borderColor: isDark ? "#2a2a2a" : "#e5e7eb",
-                            }}
-                          >
-                            <View className="flex-row justify-between items-center mb-2">
-                              <Text
-                                className="text-xs"
-                                style={{ color: isDark ? "#888" : "#6b7280" }}
-                              >
-                                {t("products.value_item")} {index + 1}
-                              </Text>
-                              <Button
-                                title={t("products.remove")}
-                                onPress={() =>
-                                  setAttributeValues((v) =>
-                                    v.filter((_, i) => i !== index)
-                                  )
-                                }
-                                className="bg-red-500 py-1 px-3"
-                              />
-                            </View>
-                            <View className="mb-2">
-                              <Input
-                                label={t("products.value")}
-                                placeholder={t("products.enter_value")}
-                                value={attrValue.value}
-                                onChangeText={(text) => {
-                                  const newValues = [...attributeValues];
-                                  newValues[index].value = text;
-                                  setAttributeValues(newValues);
-                                }}
-                              />
-                            </View>
-                            <Input
-                              label={t("products.extra_price")}
-                              placeholder={t("products.enter_extra_price")}
-                              value={attrValue.price}
-                              onChangeText={(text) => {
-                                const newValues = [...attributeValues];
-                                newValues[index].price = text;
-                                setAttributeValues(newValues);
-                              }}
-                              keyboardType="numeric"
+                          <View className="flex-row justify-between items-center mb-2">
+                            <Text
+                              className="text-xs"
+                              style={{ color: isDark ? "#888" : "#6b7280" }}
+                            >
+                              {t("products.value_item")} {index + 1}
+                            </Text>
+                            <Button
+                              title={t("products.remove")}
+                              onPress={() =>
+                                setAttributeValues((v) =>
+                                  v.filter((_, i) => i !== index)
+                                )
+                              }
+                              className="bg-red-500 py-1 px-3"
                             />
                           </View>
-                        ))}
-
-                        <View
-                          className="mb-3 p-3 rounded-lg"
-                          style={{ backgroundColor: isDark ? "#111" : "#f9fafb" }}
-                        >
                           <View className="mb-2">
                             <Input
                               label={t("products.value")}
                               placeholder={t("products.enter_value")}
-                              value={formik.values.attribute_value}
-                              onChangeText={formik.handleChange("attribute_value")}
+                              value={attrValue.value}
+                              onChangeText={(text) => {
+                                const newValues = [...attributeValues];
+                                newValues[index].value = text;
+                                setAttributeValues(newValues);
+                              }}
                             />
                           </View>
-                          <View className="mb-3">
-                            <Input
-                              label={t("products.price")}
-                              placeholder={t("products.price")}
-                              value={formik.values.attribute_price}
-                              onChangeText={formik.handleChange("attribute_price")}
-                              keyboardType="numeric"
-                            />
-                          </View>
-                          <Button
-                            title={t("products.add_value")}
-                            onPress={() => {
-                              if (
-                                formik.values.attribute_value &&
-                                formik.values.attribute_price
-                              ) {
-                                setAttributeValues([
-                                  ...attributeValues,
-                                  {
-                                    attribute_id: selectedAttributeId,
-                                    value: formik.values.attribute_value,
-                                    price: formik.values.attribute_price,
-                                  },
-                                ]);
-                                formik.setFieldValue("attribute_value", "");
-                                formik.setFieldValue("attribute_price", "");
-                              } else {
-                                Toast.show({
-                                  type: "error",
-                                  text1: t("products.fill_all_fields"),
-                                });
-                              }
+                          <Input
+                            label={t("products.extra_price")}
+                            placeholder={t("products.enter_extra_price")}
+                            value={attrValue.price}
+                            onChangeText={(text) => {
+                              const newValues = [...attributeValues];
+                              newValues[index].price = text;
+                              setAttributeValues(newValues);
                             }}
-                            className="bg-blue-500"
+                            keyboardType="numeric"
                           />
                         </View>
+                      ))}
+
+                      <View
+                        className="mb-3 p-3 rounded-lg"
+                        style={{ backgroundColor: isDark ? "#111" : "#f9fafb" }}
+                      >
+                        <View className="mb-2">
+                          <Input
+                            label={t("products.value")}
+                            placeholder={t("products.enter_value")}
+                            value={formik.values.attribute_value}
+                            onChangeText={formik.handleChange("attribute_value")}
+                          />
+                        </View>
+                        <View className="mb-3">
+                          <Input
+                            label={t("products.price")}
+                            placeholder={t("products.price")}
+                            value={formik.values.attribute_price}
+                            onChangeText={formik.handleChange("attribute_price")}
+                            keyboardType="numeric"
+                          />
+                        </View>
+                        <Button
+                          title={t("products.add_value")}
+                          onPress={() => {
+                            if (
+                              formik.values.attribute_value &&
+                              formik.values.attribute_price
+                            ) {
+                              setAttributeValues([
+                                ...attributeValues,
+                                {
+                                  attribute_id: selectedAttributeId,
+                                  value: formik.values.attribute_value,
+                                  price: formik.values.attribute_price,
+                                },
+                              ]);
+                              formik.setFieldValue("attribute_value", "");
+                              formik.setFieldValue("attribute_price", "");
+                            } else {
+                              Toast.show({
+                                type: "error",
+                                text1: t("products.fill_all_fields"),
+                              });
+                            }
+                          }}
+                          className="bg-blue-500"
+                        />
                       </View>
-                    )}
-                  </>
-                )}
+                    </View>
+                  )}
+                </>
+              )}
 
-                {/* Submit */}
+              {/* Submit */}
 
-                <Button
-                  size="lg"
-                  title={
-                    createMutation.isPending
-                      ? t("products.saving")
-                      : t("products.save")
-                  }
-                  onPress={formik.handleSubmit}
-                  disabled={createMutation.isPending}
-                />
-              </View>
-            </ScrollView>
-          </Layout>
-        </TouchableWithoutFeedback>
+              <Button
+                size="lg"
+                title={
+                  createMutation.isPending
+                    ? t("products.saving")
+                    : t("products.save")
+                }
+                onPress={formik.handleSubmit}
+                disabled={createMutation.isPending}
+              />
+            </View>
+          </ScrollView>
+        </Layout>
+        {/* </TouchableWithoutFeedback> */}
       </KeyboardAvoidingView>
+
+
 
       {/* ── Category Bottom Sheet ─────────────────────────────────────────── */}
       <BottomPaper ref={categorySheetRef} snapPoints={["60%"]}>
-        <View className="flex-1 px-4 pt-2">
-          {/* Header */}
+        {/* Header + Search — fixed, not scrollable */}
+        <View style={{ paddingHorizontal: 16, paddingTop: 8 }}>
           <View className="flex-row items-center justify-between mb-3">
             <Text
               className="text-lg font-bold"
@@ -548,24 +552,16 @@ export default function AddProduct() {
             >
               {t("products.select_category")}
             </Text>
-            <TouchableOpacity
-              onPress={() => categorySheetRef.current?.close()}
-            >
+            <TouchableOpacity onPress={() => categorySheetRef.current?.close()}>
               <AntDesign name="close" size={22} color={isDark ? "#ccc" : "#555"} />
             </TouchableOpacity>
           </View>
 
-          {/* Search */}
           <View
             className="flex-row items-center rounded-xl px-3 py-2 mb-3"
             style={{ backgroundColor: isDark ? "#1a1a1a" : "#f5f5f5" }}
           >
-            <Ionicons
-              name="search"
-              size={18}
-              color="#fd4a12"
-              style={{ marginRight: 8 }}
-            />
+            <Ionicons name="search" size={18} color="#fd4a12" style={{ marginRight: 8 }} />
             <TextInput
               value={categorySearch}
               onChangeText={setCategorySearch}
@@ -580,89 +576,82 @@ export default function AddProduct() {
               </TouchableOpacity>
             )}
           </View>
+        </View>
 
-          {/* List */}
-          {isLoadingCategories ? (
-            <ActivityIndicator color="#fd4a12" style={{ marginTop: 20 }} />
-          ) : (
-            <FlatList
-              data={filteredCategories}
-              keyExtractor={(item) => item.id.toString()}
-              style={{ flex: 1 }}
-              contentContainerStyle={{ paddingBottom: 16 }}
-              ListEmptyComponent={
-                <Text
-                  className="text-center text-sm mt-6"
-                  style={{ color: isDark ? "#666" : "#aaa" }}
+        {/* Scrollable list — direct child of sheet */}
+        {isLoadingCategories ? (
+          <ActivityIndicator color="#fd4a12" style={{ marginTop: 20 }} />
+        ) : (
+          <BottomSheetFlatList
+            data={filteredCategories}
+            keyExtractor={(item: Category) => item.id.toString()}
+            contentContainerStyle={{ paddingHorizontal: 16, paddingBottom: 32 }}
+            ListEmptyComponent={
+              <Text
+                className="text-center text-sm mt-6"
+                style={{ color: isDark ? "#666" : "#aaa" }}
+              >
+                No categories found. Assign categories to your store first.
+              </Text>
+            }
+            renderItem={({ item }: { item: Category }) => {
+              const isSelected = selectedCategory?.id === item.id;
+              return (
+                <TouchableOpacity
+                  onPress={() => handleSelectCategory(item)}
+                  className="flex-row items-center p-3 rounded-xl mb-2 border"
+                  style={{
+                    backgroundColor: isSelected
+                      ? isDark ? "#2a1a15" : "#fff4f0"
+                      : isDark ? "#111" : "#fff",
+                    borderColor: isSelected
+                      ? "#fd4a12"
+                      : isDark ? "#222" : "#eee",
+                    borderWidth: 1.5,
+                  }}
                 >
-                  No categories found. Assign categories to your store first.
-                </Text>
-              }
-              renderItem={({ item }) => {
-                const isSelected = selectedCategory?.id === item.id;
-                return (
-                  <TouchableOpacity
-                    onPress={() => handleSelectCategory(item)}
-                    className="flex-row items-center p-3 rounded-xl mb-2 border"
-                    style={{
-                      backgroundColor: isSelected
-                        ? isDark
-                          ? "#2a1a15"
-                          : "#fff4f0"
-                        : isDark
-                          ? "#111"
-                          : "#fff",
-                      borderColor: isSelected
-                        ? "#fd4a12"
-                        : isDark
-                          ? "#222"
-                          : "#eee",
-                      borderWidth: 1.5,
-                    }}
-                  >
-                    {item.image ? (
-                      <Image
-                        source={{ uri: item.image }}
-                        className="w-12 h-12 rounded-xl mr-3"
-                        style={{ resizeMode: "cover" }}
-                      />
-                    ) : (
-                      <View
-                        className="w-12 h-12 rounded-xl mr-3 items-center justify-center"
-                        style={{ backgroundColor: isDark ? "#333" : "#f0f0f0" }}
-                      >
-                        <Ionicons name="grid-outline" size={20} color="#fd4a12" />
-                      </View>
-                    )}
-                    <View className="flex-1">
+                  {item.image ? (
+                    <Image
+                      source={{ uri: item.image }}
+                      className="w-12 h-12 rounded-xl mr-3"
+                      style={{ resizeMode: "cover" }}
+                    />
+                  ) : (
+                    <View
+                      className="w-12 h-12 rounded-xl mr-3 items-center justify-center"
+                      style={{ backgroundColor: isDark ? "#333" : "#f0f0f0" }}
+                    >
+                      <Ionicons name="grid-outline" size={20} color="#fd4a12" />
+                    </View>
+                  )}
+                  <View className="flex-1">
+                    <Text
+                      className="text-sm font-semibold"
+                      style={{ color: isDark ? "#fff" : "#111" }}
+                      numberOfLines={1}
+                    >
+                      {item.name}
+                    </Text>
+                    {item.description ? (
                       <Text
-                        className="text-sm font-semibold"
-                        style={{ color: isDark ? "#fff" : "#111" }}
+                        className="text-xs mt-0.5"
+                        style={{ color: isDark ? "#888" : "#aaa" }}
                         numberOfLines={1}
                       >
-                        {item.name}
+                        {item.description}
                       </Text>
-                      {item.description ? (
-                        <Text
-                          className="text-xs mt-0.5"
-                          style={{ color: isDark ? "#888" : "#aaa" }}
-                          numberOfLines={1}
-                        >
-                          {item.description}
-                        </Text>
-                      ) : null}
+                    ) : null}
+                  </View>
+                  {isSelected && (
+                    <View className="w-6 h-6 rounded-full items-center justify-center bg-primary">
+                      <AntDesign name="check" size={13} color="#fff" />
                     </View>
-                    {isSelected && (
-                      <View className="w-6 h-6 rounded-full items-center justify-center bg-primary">
-                        <AntDesign name="check" size={13} color="#fff" />
-                      </View>
-                    )}
-                  </TouchableOpacity>
-                );
-              }}
-            />
-          )}
-        </View>
+                  )}
+                </TouchableOpacity>
+              );
+            }}
+          />
+        )}
       </BottomPaper>
     </>
   );

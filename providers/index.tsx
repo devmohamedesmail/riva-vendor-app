@@ -4,6 +4,7 @@ import { NetworkProvider } from '@/context/network-provider';
 import SettingProvider from '@/context/setting-provider';
 import StoreProvider from '@/context/store-provider';
 import { ThemeProvider } from '@/context/theme-provider';
+import { BottomSheetModalProvider } from '@gorhom/bottom-sheet';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import React from 'react';
 import { GestureHandlerRootView } from "react-native-gesture-handler";
@@ -19,11 +20,13 @@ export default function AppProviders({ children }: { children: React.ReactNode }
                     <SettingProvider>
                         <NetworkProvider>
                             <AuthProvider>
-                                    <StoreProvider>
-                                        <LanguageProvider>
-                                        {children}
-                                        </LanguageProvider>
-                                    </StoreProvider>
+                                <StoreProvider>
+                                    <LanguageProvider>
+                                        <BottomSheetModalProvider>
+                                            {children}
+                                        </BottomSheetModalProvider>
+                                    </LanguageProvider>
+                                </StoreProvider>
                                 <Toast />
                             </AuthProvider>
                         </NetworkProvider>

@@ -1,7 +1,6 @@
 import BottomSheet from '@gorhom/bottom-sheet';
 import { useColorScheme } from 'nativewind';
 import React, { forwardRef, useMemo } from 'react';
-import { View } from 'react-native';
 
 type BottomPaperProps = {
   children: React.ReactNode;
@@ -10,32 +9,33 @@ type BottomPaperProps = {
 
 const BottomPaper = forwardRef<BottomSheet, BottomPaperProps>(
   ({ children, snapPoints = ['40%'] }, ref) => {
-    const memoSnapPoints = useMemo(() => snapPoints, [snapPoints]);
-
     const { colorScheme } = useColorScheme();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    const memoSnapPoints = useMemo(() => snapPoints, [JSON.stringify(snapPoints)]);
 
     return (
       <BottomSheet
         ref={ref}
         index={-1}
         snapPoints={memoSnapPoints}
+        enableDynamicSizing={false}
         enablePanDownToClose
         backgroundStyle={{
-          backgroundColor: colorScheme === 'dark' ? '#000' : '#fff',
+          backgroundColor: colorScheme === 'dark' ? '#111' : '#fff',
         }}
         handleIndicatorStyle={{
-          backgroundColor: colorScheme === 'dark' ? '#fff' : '#000',
+          backgroundColor: colorScheme === 'dark' ? '#555' : '#ccc',
         }}
       >
-        {/* <View style={{ flex: 1 }}> */}
-          {children}
-        {/* </View> */}
+        {children}
       </BottomSheet>
     );
   }
 );
 
 export default BottomPaper;
+
+
 
 
 
