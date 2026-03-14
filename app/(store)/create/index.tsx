@@ -144,7 +144,7 @@ export default function Create() {
                     setTimeout(() => { router.push('/') }, 1000)
 
                 } else {
-                    console.log(data)
+                    1
                     Toast.show({
                         type: 'error',
                         text1: t('store.storeCreationFailed'),
