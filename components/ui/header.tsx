@@ -13,7 +13,7 @@ export default function Header({ title, backButton = true }: { title?: string, b
   const { t } = useTranslation()
   const insets = useSafeAreaInsets()
   const router = useRouter()
- 
+
 
   return (
     <View
