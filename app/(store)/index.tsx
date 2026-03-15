@@ -9,6 +9,7 @@ import NoStore from '@/components/ui/no-store'
 import StoreInfo from '@/components/ui/store-info'
 import usePushNotifications from '@/hooks/usePushNotifications'
 import { Button, Text, View } from 'react-native'
+import { router } from 'expo-router'
 
 export default function Home() {
   const { t } = useTranslation();
@@ -60,7 +61,7 @@ export default function Home() {
 
 
 
-
+<Button onPress={() => router.push("/(admin)/orders")} title="admin" />
 
       {isLoading ? (
         <Loading />
