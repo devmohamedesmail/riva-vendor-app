@@ -10,16 +10,20 @@ export default function Layout() {
   return (
     <Tabs screenOptions={{
       headerShown: false,
-      tabBarActiveTintColor: colors.light.tabIconSelected,
-      tabBarInactiveTintColor: colors.light.tabIconDefault,
+      tabBarActiveTintColor:
+      colorScheme === 'dark'
+        ? colors.light.tabIconSelected 
+        : colors.light.tabIconSelected,
+
+    tabBarInactiveTintColor:
+      colorScheme === 'dark'
+        ? '#9ca3af' // inactive color in dark mode
+        : colors.light.tabIconDefault,
+      
       tabBarStyle: {
         backgroundColor: colorScheme === "dark" ? '#000' : '#fff',
         borderTopWidth: 1,
         borderTopColor: colorScheme === "dark" ? '#000' : '#e5e7eb',
-
-        // paddingTop: 8,
-        // paddingBottom: 10,
-        // height: 70,
       },
     }}>
 
