@@ -14,6 +14,8 @@ import { Linking } from 'react-native';
 import AccountActionSection from '@/components/screens/account/account-action-section'
 import { useSetting } from '@/hooks/useSetting'
 import { useLanguage } from '@/hooks/useLangauge'
+import ProfileInfoSection from '@/components/screens/account/profile-info-section'
+import AccountOptionsSection from '@/components/screens/account/account-options-section'
 
 export default function Account() {
     const { t } = useTranslation()
@@ -30,7 +32,7 @@ export default function Account() {
 
             <ScrollView className="flex-1">
                 {/* Profile Section */}
-                <View className="mx-4 mt-4 rounded-xl">
+                {/* <View className="mx-4 mt-4 rounded-xl">
                     <View className="p-6 items-center border-b">
                         <View className="w-20 h-20 bg-primary rounded-full items-center justify-center mb-3">
                             <Text className="text-white text-2xl font-bold">
@@ -50,12 +52,16 @@ export default function Account() {
                     </View>
 
 
-                </View>
+                </View> */}
+
+                <ProfileInfoSection />
 
 
 
                 <View className='px-5'>
-                    <OptionButton
+                    <AccountOptionsSection />
+                   {/* <View>
+                     <OptionButton
                         title={t('account.edit_profile')}
                         onPress={() => router.push('/account/edit-profile')}
                         icon={<Ionicons name="person" size={20} color='red' />}
@@ -85,6 +91,7 @@ export default function Account() {
                         onPress={() => Linking.openURL(`tel:${settings?.phone}`)}
                         icon={<AntDesign name="phone" size={20} color='red' />}
                     />
+                   </View> */}
 
 
                     <AccountActionSection />

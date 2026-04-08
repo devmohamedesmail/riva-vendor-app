@@ -60,6 +60,9 @@ export default function useLogin() {
                     text1: t('auth.login_success'),
                     text2: t('auth.welcomeBack'),
                     type: 'success',
+                    position: 'top',
+                    topOffset: 50,
+                    visibilityTime: 1000,
                     onHide: () => {
                         const role = result.data.user.role.role;
 
@@ -83,7 +86,7 @@ export default function useLogin() {
 
 
 
-                
+
 
                 // const role = result.data.user.role.role;
 

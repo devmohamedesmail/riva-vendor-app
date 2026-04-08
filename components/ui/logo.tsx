@@ -1,11 +1,12 @@
 import React from 'react'
-import { Image, View } from 'react-native'
+import { Image, View ,Text} from 'react-native'
 import { useSetting } from '@/hooks/useSetting'
 
 export default function Logo() {
   const { settings } = useSetting()
   return (
-    <View>
+    <View className='p-0'>
+      
       {settings?.logo && (
         <Image
           source={{ uri: settings?.logo }}

@@ -6,9 +6,9 @@ import { Ionicons } from '@expo/vector-icons'
 import { LinearGradient } from 'expo-linear-gradient'
 import React, { useEffect, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Animated, Dimensions, Text, View } from 'react-native'
+import { Animated, Text, View } from 'react-native'
 
-const { width } = Dimensions.get('window')
+
 
 export default function AuthHeader({ title }: { title?: string }) {
     const { t, i18n } = useTranslation()
@@ -132,24 +132,20 @@ export default function AuthHeader({ title }: { title?: string }) {
                         )}
                     </View>
                     <View className="items-center mb-6">
-                        <Animated.View
+                        <View
                             className="relative"
-                            style={{
-                                transform: [{ scale: pulseAnim }]
-                            }}
+                           
                         >
                             {/* Glow effect behind logo */}
                             <View className="absolute inset-0 bg-primary/20 rounded-full blur-xl scale-110" />
 
                             {/* Logo container with glassmorphism */}
-                            <View className="bg-white p-5 rounded-3xl shadow-2xl border border-white/20">
+                            <View className=" overflow-hidden rounded-2xl shadow-2xl border border-white/20">
                                 <Logo />
                             </View>
 
-                            {/* Decorative corner accents */}
-                            <View className="absolute -top-1 -right-1 w-4 h-4 bg-primary rounded-full" />
-                            <View className="absolute -bottom-1 -left-1 w-3 h-3 bg-primary/70 rounded-full" />
-                        </Animated.View>
+    
+                        </View>
                     </View>
 
 

@@ -88,7 +88,8 @@ export default function useRegister() {
                         type: 'success',
                         text1: t('auth.registration_success'),
                         position: 'top',
-                        visibilityTime: 3000,
+                        topOffset: 50,
+                        visibilityTime: 1000,
                     });
 
                     if (values.role_id === 3) {

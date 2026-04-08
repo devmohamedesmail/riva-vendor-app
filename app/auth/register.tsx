@@ -8,6 +8,8 @@ import { Text, TouchableOpacity, View } from 'react-native'
 // import SocialLoginSection from '@/components/screens/auth/social-login-section'
 import RoleSelection from '@/components/screens/auth/role-selection'
 import useRegister from '@/hooks/auth/useRegister'
+import ToggleAuthLink from '@/components/screens/auth/toggle-auth-link'
+import RegisterForm from '@/components/screens/auth/register-form'
 
 
 
@@ -18,7 +20,9 @@ export default function Register() {
     return (
 
         <AuthLayout>
-            <AuthHeader title={t('auth.createAccount')} />
+            <AuthHeader
+                title={t('auth.createAccount')}
+            />
 
             <View className="flex-1 px-6 rounded-t-3xl -mt-6 bg-white dark:bg-card-dark pt-10 pb-10">
 
@@ -37,80 +41,19 @@ export default function Register() {
                     />
 
                 </View>
-
-                {/* Name Input */}
-                <Input
-                    label={t('auth.name')}
-                    placeholder={t('auth.enterName')}
-                    type="text"
-                    value={formik.values.name}
-                    onChangeText={formik.handleChange('name')}
-                    error={formik.touched.name && formik.errors.name ? formik.errors.name : undefined}
+                <RegisterForm 
+                formik={formik}
+                registerMethod={registerMethod}
+                isLoading={isLoading}
+                t={t}
                 />
-
-                {/* Conditional Input based on Tab */}
-                {registerMethod === 'email' ? (
-                    <Input
-                        label={t('auth.email')}
-                        placeholder={t('auth.enterEmail')}
-                        type="email"
-                        keyboardType="email-address"
-                        value={formik.values.email}
-                        onChangeText={formik.handleChange('email')}
-                        error={formik.touched.email && formik.errors.email ? formik.errors.email : undefined}
-                    />
-                ) : (
-                    <Input
-                        label={t('auth.phone')}
-                        placeholder={t('auth.enterPhone')}
-                        type="phone"
-                        keyboardType="phone-pad"
-                        value={formik.values.phone}
-                        onChangeText={formik.handleChange('phone')}
-                        error={formik.touched.phone && formik.errors.phone ? formik.errors.phone : undefined}
-                    />
-                )}
-
-                {/* Password Input */}
-                <Input
-                    label={t('auth.password')}
-                    placeholder={t('auth.enterPassword')}
-                    type="password"
-                    value={formik.values.password}
-                    onChangeText={formik.handleChange('password')}
-                    error={formik.touched.password && formik.errors.password ? formik.errors.password : undefined}
+               
+               
+                <ToggleAuthLink
+                    title={t('auth.alreadyHaveAccount')}
+                    linkTitle={t('auth.signIn')}
+                    onPress={() => router.push('/auth/login')}
                 />
-
-                {/* Role Selection */}
-                {/* <RoleOptions formik={formik} /> */}
-                <RoleSelection
-                    formik={formik}
-                    // value={formik.values.role_id}
-                    // onChange={(val) => formik.setFieldValue('role_id', val)}
-                    // error={formik.touched.role_id && formik.errors.role_id ? String(formik.errors.role_id) : undefined}
-                />
-
-
-                <View className='mt-10'>
-                    <Button
-                        variant="primary"
-                        size='lg'
-                        title={isLoading ? t('auth.wait') : t('auth.next')}
-                        onPress={() => formik.handleSubmit()}
-                        disabled={isLoading || !formik.isValid || !formik.dirty}
-                    />
-                </View>
-
-
-                {/* Terms and Sign In Link */}
-                <View className="mt-4">
-                    <View className="flex-row justify-center items-center">
-                        <Text className="text-gray-600 ">{t('auth.alreadyHaveAccount')} </Text>
-                        <TouchableOpacity onPress={() => router.push('/auth/login')}>
-                            <Text className="text-primary ">{t('auth.signIn')}</Text>
-                        </TouchableOpacity>
-                    </View>
-                </View>
 
                 {/* <SocialLoginSection /> */}
             </View>
