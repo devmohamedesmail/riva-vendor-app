@@ -575,5 +575,10 @@
     "tapToUpload": "Tap to select an image",
     "createdSuccessfully": "Vehicle created successfully",
     "creationFailed": "Failed to create vehicle"
+  },
+   "update": {
+    "title": "Update Available!",
+    "description": "We have launched a new version of the app with additional features and improvements. Please update to continue.",
+    "button": "Update Now"
   }
 }

@@ -9,6 +9,7 @@ export interface Setting {
   banner: string | null
 
   version: string
+  vendor_version: string
   description: string
 
   url: string

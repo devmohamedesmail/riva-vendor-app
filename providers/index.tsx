@@ -9,6 +9,7 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import React from 'react';
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import Toast from 'react-native-toast-message';
+import { UpdateProvider } from '@/context/update-provider';
 
 
 export default function AppProviders({ children }: { children: React.ReactNode }) {
@@ -23,7 +24,9 @@ export default function AppProviders({ children }: { children: React.ReactNode }
                                 <StoreProvider>
                                     <LanguageProvider>
                                         <BottomSheetModalProvider>
-                                            {children}
+                                            <UpdateProvider>
+                                                {children}
+                                            </UpdateProvider>
                                         </BottomSheetModalProvider>
                                     </LanguageProvider>
                                 </StoreProvider>

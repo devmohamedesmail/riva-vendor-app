@@ -1,6 +1,7 @@
 import React from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { StatusBar } from "react-native";
+import AppUpdateChecker from "./app-update-checker";
 
 
 
@@ -15,6 +16,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
 
       />
       {children}
+      <AppUpdateChecker />
     </SafeAreaView>
 
   );

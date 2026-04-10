@@ -2,7 +2,7 @@
   "expo": {
     "name": "وكيل Riva",
     "slug": "tawsila-agent",
-    "version": "1.0.19",
+    "version": "1.0.20",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
     "scheme": "tawsilaagent",
@@ -15,7 +15,7 @@
     },
     "ios": {
       "supportsTablet": true,
-      "buildNumber": "1.0.19",
+      "buildNumber": "1.0.20",
       "config": {
         "googleMapsApiKey": "AIzaSyCWrI-BwVYZE6D7wzFCVeEuaKr6VR-6FGI"
       },
@@ -32,7 +32,7 @@
       },
       // "edgeToEdgeEnabled": true,
       "package": "com.dev.mohamed.esmail.tawsilaagent",
-      "versionCode": 19,
+      "versionCode": 20,
       "permissions": [
         "ACCESS_COARSE_LOCATION",
         "ACCESS_FINE_LOCATION",
