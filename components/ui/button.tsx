@@ -1,6 +1,7 @@
 import React from 'react'
-import { Pressable, View, Text, ActivityIndicator } from 'react-native'
+import { Pressable, View, ActivityIndicator } from 'react-native'
 import clsx from 'clsx'
+import Text from '@/components/ui/text';
 
 type ButtonVariant = 'primary' | 'danger' | 'outline'
 type ButtonSize = 'sm' | 'md' | 'lg'
@@ -36,7 +37,7 @@ export default function Button({
         pressed && !isDisabled && { opacity: 0.8 },
       ]}
       className={clsx(
-        'flex-row items-center justify-center rounded-md',
+        'flex-row items-center justify-center rounded-md ',
 
         // 🎨 Variants
         variant === 'primary' && 'bg-primary',
@@ -62,7 +63,7 @@ export default function Button({
         <>
           <Text
             className={clsx(
-              'font-bold',
+              '',
               variant === 'outline'
                 ? 'text-primary'
                 : 'text-white',

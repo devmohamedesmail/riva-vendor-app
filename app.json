@@ -7,7 +7,6 @@
     "icon": "./assets/images/icon.png",
     "scheme": "tawsilaagent",
     "userInterfaceStyle": "automatic",
-    // "newArchEnabled": true,
     "splash": {
       "image": "./assets/images/splash-icon.png",
       "resizeMode": "contain",
@@ -30,7 +29,6 @@
         "foregroundImage": "./assets/images/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
-      // "edgeToEdgeEnabled": true,
       "package": "com.dev.mohamed.esmail.tawsilaagent",
       "versionCode": 20,
       "permissions": [
@@ -52,12 +50,7 @@
     "plugins": [
       "expo-router",
       "expo-notifications",
-      // [
-      //   "@react-native-google-signin/google-signin",
-      //   {
-      //     "iosUrlScheme": "com.googleusercontent.apps.324542819994-s1bp32trk8lp253fdv4g38tu9h94fc8e"
-      //   }
-      // ]
+      "expo-font"
     ],
     "experiments": {
       "typedRoutes": true

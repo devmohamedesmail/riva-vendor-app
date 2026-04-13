@@ -7,22 +7,29 @@ import { initI18n } from '@/i18n/i18n';
 import usePushNotifications from '@/hooks/usePushNotifications';
 import useLocationTracking from '@/hooks/useLocationTracking';
 import { startLocationTracking } from '@/services/locationService'
-import * as Location from "expo-location";
-import LOCATION_TASK from '@/tasks/locationTask'
 import { config } from '@/constants/config'
 import { useAuth } from '@/hooks/useAuth'
 import { Platform } from 'react-native'
+import { useFonts, Cairo_400Regular, Cairo_700Bold } from "@expo-google-fonts/cairo";
+import { Poppins_400Regular, Poppins_600SemiBold } from "@expo-google-fonts/poppins";
 
 export default function RootLayout() {
- const { expoPushToken } = usePushNotifications();
+    const [fontsLoaded] = useFonts({
+        Cairo_400Regular,
+        Cairo_700Bold,
+        Poppins_400Regular,
+        Poppins_600SemiBold
+    })
+
+
+
+    const { expoPushToken } = usePushNotifications();
     const [ready, setReady] = useState(false);
-
-
     useEffect(() => {
         initI18n().then(() => setReady(true));
     }, []);
 
-    if (!ready) return null;
+    if (!fontsLoaded || !ready) return null;
 
 
 
@@ -44,7 +51,7 @@ function RootNavigation() {
     const { auth } = useAuth();
     useLocationTracking();
     startLocationTracking();
-    
+
     useEffect(() => {
         if (!expoPushToken) return;
 

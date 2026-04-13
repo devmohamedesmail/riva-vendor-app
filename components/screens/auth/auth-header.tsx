@@ -6,7 +6,8 @@ import { Ionicons } from '@expo/vector-icons'
 import { LinearGradient } from 'expo-linear-gradient'
 import React, { useEffect, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Animated, Text, View } from 'react-native'
+import { Animated, View } from 'react-native'
+import Text from '@/components/ui/text';
 
 
 

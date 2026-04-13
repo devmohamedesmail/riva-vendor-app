@@ -1,9 +1,10 @@
 import React from 'react'
-import { View, Text, Pressable } from 'react-native'
+import { View, Pressable } from 'react-native'
 import Input from '@/components/ui/input'
 import { Ionicons } from '@expo/vector-icons'
 import { Link } from 'expo-router'
 import Button from '@/components/ui/button'
+import Text from '@/components/ui/text';
 
 export default function LoginForm({loginMethod,formik,rememberMe,setRememberMe,t,i18n,isLoading}:any) {
   return (

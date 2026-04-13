@@ -1,8 +1,8 @@
 import React from 'react'
-import { TouchableOpacity, View, Text } from 'react-native'
+import { TouchableOpacity, View } from 'react-native'
 import Entypo from '@expo/vector-icons/Entypo';
-import Colors from '@/constants/colors';
 import { useColorScheme } from 'nativewind';
+import Text from '@/components/ui/text';
 
 
 export default function OptionButton({ onPress, title, icon }: { title: string, onPress: () => void, icon: React.ReactNode }) {

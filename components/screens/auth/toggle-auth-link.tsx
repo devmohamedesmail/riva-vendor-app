@@ -1,5 +1,7 @@
 import React from 'react'
-import { Text, Pressable, View } from 'react-native'
+import { Pressable, View } from 'react-native'
+import Text from '@/components/ui/text';
+
 export default function ToggleAuthLink({title, linkTitle, onPress}: {title: string, linkTitle: string, onPress: () => void}) {
     return (
         <View className="flex-row justify-center items-center mt-8">

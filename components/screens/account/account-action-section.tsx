@@ -10,11 +10,12 @@ import { useFormik } from 'formik';
 import { useColorScheme } from 'nativewind';
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Pressable, Text, View } from 'react-native';
+import { Pressable, View } from 'react-native';
 import Modal from 'react-native-modal';
 import Toast from 'react-native-toast-message';
 import * as Yup from 'yup';
 import AccountActionButton from './account-action-button';
+import Text from '@/components/ui/text';
 
 
 export default function AccountActionSection() {
@@ -24,7 +25,7 @@ export default function AccountActionSection() {
     const [isLogoutModalVisible, setIsLogoutModalVisible] = useState(false)
     const { auth, logout } = useAuth()
     const router = useRouter()
-    const [loadding, setLoading] = useState(false)
+
 
 
 
@@ -75,20 +76,20 @@ export default function AccountActionSection() {
         <>
 
             <View className='mt-4'>
-               
-                <AccountActionButton 
-                title={t('account.logout')}
-                icon={<AntDesign name="logout" size={24} color='white' />}
-                onPress={() => setIsLogoutModalVisible(true)}
-                
+
+                <AccountActionButton
+                    title={t('account.logout')}
+                    icon={<AntDesign name="logout" size={24} color='white' />}
+                    onPress={() => setIsLogoutModalVisible(true)}
+
                 />
 
-               
-                <AccountActionButton 
-                title={t('account.delete_account')}
-                icon={<Feather name="trash" size={24} color='white' />}
-                onPress={() => setIsDeleteModalVisible(true)}
-                
+
+                <AccountActionButton
+                    title={t('account.delete_account')}
+                    icon={<Feather name="trash" size={24} color='white' />}
+                    onPress={() => setIsDeleteModalVisible(true)}
+
                 />
 
             </View>
@@ -109,9 +110,7 @@ export default function AccountActionSection() {
                             <Feather name="alert-triangle" size={48} color="#EF4444" />
                         </View>
                         <Text
-                            className='text-center font-bold text-2xl mb-2'
-                            style={{ fontFamily: 'Cairo_700Bold', color: colorScheme === 'dark' ? '#fff' : '#1f2937' }}
-                        >
+                            className='text-center text-2xl mb-2'>
                             {t('account.delete_account')}
                         </Text>
                         <Text
@@ -165,8 +164,7 @@ export default function AccountActionSection() {
                             <AntDesign name="logout" size={48} color="#F97316" />
                         </View>
                         <Text
-                            className='text-center font-bold text-2xl mb-2'
-                            style={{ fontFamily: 'Cairo_700Bold', color: colorScheme === 'dark' ? '#fff' : '#1f2937' }}
+                            className='text-center text-2xl mb-2'
                         >
                             {t('account.logout')}
                         </Text>

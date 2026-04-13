@@ -8,6 +8,7 @@ import Header from '@/components/ui/header';
 import Layout from '@/components/ui/layout';
 import Loading from '@/components/ui/loading';
 import useOrders from '@/hooks/orders/useOrders';
+import NoOrders from '@/components/screens/orders/no-orders';
 
 const StatusBadge = ({ status }: { status: string }) => {
     const { t } = useTranslation();
@@ -217,17 +218,8 @@ export default function Orders() {
                             />
                         }
                         ListEmptyComponent={
-                            <View className="flex-1 justify-center items-center py-10 mt-20">
-                                <View className="bg-white dark:bg-gray-900 p-8 rounded-full mb-6 shadow-sm border border-gray-100 dark:border-gray-800">
-                                    <Ionicons name="receipt-outline" size={56} color="#d1d5db" />
-                                </View>
-                                <Text className="text-gray-900 dark:text-white text-xl font-bold mb-2">
-                                    {t('orders.empty_title', 'No Orders Yet')}
-                                </Text>
-                                <Text className="text-gray-500 dark:text-gray-400 text-center px-8 text-sm leading-relaxed">
-                                    {t('orders.empty_desc', "You don't have any orders at the moment. New orders will appear here once they are placed.")}
-                                </Text>
-                            </View>
+                           
+                            <NoOrders />
                         }
                     />
                 )}

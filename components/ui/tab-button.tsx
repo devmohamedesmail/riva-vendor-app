@@ -1,5 +1,6 @@
 import React from 'react'
-import { Pressable, Text } from 'react-native'
+import { Pressable } from 'react-native'
+import Text from '@/components/ui/text';
 
 export default function TabButton({ label, onPress, active }: { label: string, onPress: () => void, active: boolean }) {
     return (

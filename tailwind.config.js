@@ -5,6 +5,12 @@ module.exports = {
   darkMode: "class",
   theme: {
     extend: {
+      fontFamily: {
+        cairo: ["Cairo_400Regular"],
+        cairoBold: ["Cairo_700Bold"],
+        poppins: ["Poppins_400Regular"],
+        poppinsBold: ["Poppins_600SemiBold"],
+      },
       colors: {
         background: {
           DEFAULT: "#FFFFFF",

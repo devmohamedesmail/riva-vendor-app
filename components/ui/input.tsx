@@ -2,7 +2,8 @@ import { Ionicons } from '@expo/vector-icons';
 import { useColorScheme } from 'nativewind';
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Text, TextInput, TouchableOpacity, View } from 'react-native';
+import { TextInput, TouchableOpacity, View } from 'react-native';
+import Text from '@/components/ui/text';
 
 interface InputProps {
   label?: string
@@ -68,7 +69,7 @@ export default function Input({
           />
         )}
         <TextInput
-          className={`flex-1 text-base ${isDark ? 'text-white' : 'text-gray-900'} ${i18n.language === "ar" ? 'text-right' : 'text-left'}`}
+          className={`flex-1 text-base ${isDark ? 'text-white' : 'text-gray-900'} ${i18n.language === "ar" ? 'text-right font-cairo' : 'text-left font-poppins'}`}
           placeholder={placeholder}
           placeholderTextColor={isDark ? '#6B7280' : '#9CA3AF'}
           value={value}
