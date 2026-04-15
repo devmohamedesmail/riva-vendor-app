@@ -1,10 +1,10 @@
 import React,{useCallback} from 'react'
 import { useTranslation } from 'react-i18next';
-import { useAuth } from '../useAuth';
-import { useStore } from '../useStore';
+import { useAuth } from '@/hooks/auth/useAuth';
+import { useStore } from '@/hooks/store/useStore';
 import { useQueryClient } from '@tanstack/react-query';
 import { useRouter } from 'expo-router';
-import useFetch from '../useFetch';
+import useFetch from '@/hooks/common/useFetch';
 import { useMemo, useState } from 'react';
 import ProductController from '@/controllers/products/controller';
 import { useMutation, useQuery } from '@tanstack/react-query';

@@ -4,11 +4,11 @@ import AppProviders from '@/providers'
 import '../i18n/i18n'
 import '../global.css'
 import { initI18n } from '@/i18n/i18n';
-import usePushNotifications from '@/hooks/usePushNotifications';
-import useLocationTracking from '@/hooks/useLocationTracking';
+import usePushNotifications from '@/hooks/notifications/usePushNotifications';
+import useLocationTracking from '@/hooks/delivery/useLocationTracking';
 import { startLocationTracking } from '@/services/locationService'
 import { config } from '@/constants/config'
-import { useAuth } from '@/hooks/useAuth'
+import { useAuth } from '@/hooks/auth/useAuth'
 import { Platform } from 'react-native'
 import { useFonts, Cairo_400Regular, Cairo_700Bold } from "@expo-google-fonts/cairo";
 import { Poppins_400Regular, Poppins_600SemiBold } from "@expo-google-fonts/poppins";

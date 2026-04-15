@@ -4,9 +4,9 @@ import { useTranslation } from "react-i18next";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import Layout from "@/components/ui/layout";
 import Header from "@/components/ui/header";
-import { useStore } from "@/hooks/useStore";
+import { useStore } from "@/hooks/store/useStore";
 import OrderController, { Order, OrderStatus } from "@/controllers/orders/controller";
-import { useAuth } from "@/hooks/useAuth";
+import { useAuth } from "@/hooks/auth/useAuth";
 
 import NoOrders from "@/components/screens/orders/no-orders";
 import OrdersFilterSection from "@/components/screens/orders/orders-filter-section";

@@ -40,7 +40,12 @@
     "selectOption": "Select Option",
     "refresh": "Refresh",
     "verified": "Verified",
-    "unverified": "Unverified"
+    "unverified": "Unverified",
+    "from": "from",
+    "justNow": "Just now",
+    "minute": "minute",
+    "hour": "hour",
+    "day": "day"
   },
   "auth": {
     "email": "Email",
@@ -326,13 +331,15 @@
     "today": "Today",
     "yesterday": "Yesterday",
     "new_order": "New Order",
-    "new_order_message": "You have received a new order",
     "order_completed": "Order Completed",
     "order_completed_message": "Your order has been completed successfully",
     "order_cancelled": "Order Cancelled",
     "order_cancelled_message": "An order has been cancelled",
     "system_update": "System Update",
-    "system_update_message": "New features and improvements are available"
+    "system_update_message": "New features and improvements are available",
+    "new_order_title": "New Order",
+    "new_order_message": "You have received a new order"
+    
   },
   "settings": {
     "title": "Settings",

@@ -40,7 +40,12 @@
     "selectOption": "اختر من القائمة",
     "refresh": " اعاده التحميل ",
     "verified": "موثق",
-    "unverified": "غير موثق"
+    "unverified": "غير موثق",
+    "from": "من",
+    "justNow": "الآن",
+    "minute": "دقيقة",
+    "hour": "ساعة",
+    "day": "يوم"
   },
   "auth": {
     "email": "البريد الإلكتروني",
@@ -373,13 +378,14 @@
     "today": "اليوم",
     "yesterday": "أمس",
     "new_order": "طلب جديد",
-    "new_order_message": "لديك طلب جديد",
     "order_completed": "اكتمل الطلب",
     "order_completed_message": "تم إكمال طلبك بنجاح",
     "order_cancelled": "تم إلغاء الطلب",
     "order_cancelled_message": "تم إلغاء أحد الطلبات",
     "system_update": "تحديث النظام",
-    "system_update_message": "ميزات وتحسينات جديدة متاحة"
+    "system_update_message": "ميزات وتحسينات جديدة متاحة",
+    "new_order_title": "طلب جديد",
+    "new_order_message": "لديك طلب جديد"
   },
   "settings": {
     "title": "الإعدادات",

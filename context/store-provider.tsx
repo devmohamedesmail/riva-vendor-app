@@ -1,5 +1,5 @@
 import React, { createContext, useEffect, useState } from "react";
-import { useAuth } from "@/hooks/useAuth";
+import { useAuth } from "@/hooks/auth/useAuth";
 import axios from "axios";
 import { config } from "@/constants/config";
 

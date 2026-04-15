@@ -1,8 +1,22 @@
 import React from 'react'
-import { Text, View } from 'react-native'
+import { View } from 'react-native'
 import { Ionicons } from '@expo/vector-icons'
+import Text from '@/components/ui/text'
+import { useTranslation } from 'react-i18next'
 
-const getTimeAgo = (dateString: string) => {
+
+
+export default function NotificationItem({ item }: any) {
+  const { t } = useTranslation();
+  const getIconColor = (title: string) => {
+    const lowerTitle = title.toLowerCase();
+    if (lowerTitle.includes('order')) return '#10b981';
+    if (lowerTitle.includes('system')) return '#3b82f6';
+    return '#6b7280';
+  };
+
+
+  const getTimeAgo = (dateString: string) => {
   const now = new Date();
   const past = new Date(dateString);
   const diffInMs = now.getTime() - past.getTime();
@@ -10,19 +24,11 @@ const getTimeAgo = (dateString: string) => {
   const diffInHours = Math.floor(diffInMinutes / 60);
   const diffInDays = Math.floor(diffInHours / 24);
 
-  if (diffInMinutes < 1) return 'Just now';
-  if (diffInMinutes < 60) return `${diffInMinutes}m`;
-  if (diffInHours < 24) return `${diffInHours}h`;
-  return `${diffInDays}d`;
+  if (diffInMinutes < 1) return t('common.justNow');
+  if (diffInMinutes < 60) return `${diffInMinutes} ${t('common.minute')}`;
+  if (diffInHours < 24) return `${diffInHours} ${t('common.hour')}`;
+  return `${diffInDays} ${t('common.day')}`;
 };
-
-export default function NotificationItem({ item }: any) {
-  const getIconColor = (title: string) => {
-    const lowerTitle = title.toLowerCase();
-    if (lowerTitle.includes('order')) return '#10b981';
-    if (lowerTitle.includes('system')) return '#3b82f6';
-    return '#6b7280';
-  };
 
   const getIconName = (title: string) => {
     const lowerTitle = title.toLowerCase();
@@ -32,7 +38,7 @@ export default function NotificationItem({ item }: any) {
   };
   return (
     <View
-      className={`mb-3 p-4 rounded-xl border ${item.is_read ? 'bg-white border-gray-200' : 'bg-primary-50 border-primary-200'
+      className={`mb-3 p-4 rounded-xl border ${item.is_read ? 'bg-white border-gray-100' : 'bg-primary-50 border-gray-200'
         }`}
     >
       <View className="flex-row items-start">
@@ -50,17 +56,19 @@ export default function NotificationItem({ item }: any) {
 
         {/* Content */}
         <View className="flex-1">
-          <View className="flex-row items-center justify-between mb-1">
+          {/* <View className="flex-row items-center justify-between mb-1">
             <Text className="text-base font-semibold text-gray-900">
-              {item.title}
+              {t(item.title)}
             </Text>
             {!item.is_read && (
               <View className="w-2 h-2 rounded-full bg-primary" />
             )}
-          </View>
-
+          </View> */}
+          <Text className="text-base font-semibold text-gray-900">
+            {t(item.title)}
+          </Text>
           <Text className="text-sm text-gray-600 mb-2">
-            {item.message}
+            {t(item.message)} {t('common.from')} {item.data.customer_name}
           </Text>
 
           <Text className="text-xs text-gray-400">{getTimeAgo(item.createdAt)}</Text>

@@ -1,4 +1,4 @@
-import useFetch from "@/hooks/useFetch";
+import useFetch from "@/hooks/common/useFetch";
 import { useLocalSearchParams } from "expo-router";
 import React from "react";
 import { View, Text, FlatList } from "react-native";

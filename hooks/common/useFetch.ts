@@ -1,7 +1,7 @@
 import { useState, useEffect, useCallback } from "react";
 import axios from "axios";
 import { config } from "@/constants/config";
-import { useAuth } from "./useAuth";
+import { useAuth } from "@/hooks/auth/useAuth";
 
 const useFetch = (url: string | null) => {
   const [data, setData] = useState<any>(null);

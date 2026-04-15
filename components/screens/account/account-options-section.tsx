@@ -4,11 +4,11 @@ import OptionButton from './option-button'
 import { Ionicons } from '@expo/vector-icons'
 import { AntDesign } from '@expo/vector-icons'
 import { Linking } from 'react-native'
-import { useSetting } from '@/hooks/useSetting'
-import { useLanguage } from '@/hooks/useLangauge'
+import { useSetting } from '@/hooks/common/useSetting'
 import { useColorScheme } from 'nativewind'
 import { useTranslation } from 'react-i18next'
 import { useRouter } from 'expo-router'
+import { useLanguage } from '@/hooks/common/useLangauge'
 export default function AccountOptionsSection() {
     const { t } = useTranslation()
     const { colorScheme, toggleColorScheme } = useColorScheme()

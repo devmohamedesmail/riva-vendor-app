@@ -1,7 +1,7 @@
 import { config } from '@/constants/config'
 import axios from 'axios'
 import React, { useEffect } from 'react'
-import { useAuth } from '../useAuth'
+import { useAuth } from '@/hooks/auth/useAuth'
 
 
 export default function useVehicle() {

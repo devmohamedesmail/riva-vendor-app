@@ -1,5 +1,5 @@
 import { useCallback, useState } from 'react'
-import { useStore } from '@/hooks/useStore'
+import { useStore } from '@/hooks/store/useStore'
 import { Ionicons } from '@expo/vector-icons'
 import { useRouter } from 'expo-router'
 import React from 'react'

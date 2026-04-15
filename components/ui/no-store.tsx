@@ -4,7 +4,7 @@ import { Ionicons } from '@expo/vector-icons'
 import { useTranslation } from 'react-i18next'
 import Button from './button'
 import { useRouter } from 'expo-router'
-import { useStore } from '@/hooks/useStore'
+import { useStore } from '@/hooks/store/useStore'
 import colors from '@/constants/colors'
 
 export default function NoStore() {

@@ -1,5 +1,5 @@
 import { config } from '@/constants/config';
-import { useAuth } from '@/hooks/useAuth';
+import { useAuth } from '@/hooks/auth/useAuth';
 import axios from 'axios';
 import { useRouter } from 'expo-router';
 import { useFormik } from 'formik';

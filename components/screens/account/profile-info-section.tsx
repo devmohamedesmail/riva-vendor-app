@@ -1,6 +1,6 @@
 import React from 'react'
 import { View, Text } from 'react-native'
-import { useAuth } from '@/hooks/useAuth'
+import { useAuth } from '@/hooks/auth/useAuth'
 import { useTranslation } from 'react-i18next'
 export default function ProfileInfoSection() {
     const { auth } = useAuth()

@@ -10,9 +10,9 @@ import Toast from 'react-native-toast-message';
 
 
 import ProductController from '@/controllers/products/controller';
-import { useAuth } from '../useAuth';
-import { useStore } from '../useStore';
-import useFetch from '../useFetch';
+import { useAuth } from '@/hooks/auth/useAuth';
+import { useStore } from '@/hooks/store/useStore';
+import useFetch from '@/hooks/common/useFetch';
 import { Category } from '@/@types/category';
 
 

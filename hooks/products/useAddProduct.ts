@@ -1,12 +1,12 @@
 import React, { useMemo, useRef, useState, useEffect } from 'react'
 import { useTranslation } from 'react-i18next';
-import { useAuth } from '../useAuth';
-import { useStore } from '../useStore';
+import { useAuth } from '@/hooks/auth/useAuth';
+import { useStore } from '@/hooks/store/useStore';
 import BottomSheet, { BottomSheetFlatList } from "@gorhom/bottom-sheet";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useFormik } from "formik";
 import { useColorScheme } from "nativewind";
-import useFetch from '../useFetch';
+import useFetch from '@/hooks/common/useFetch';
 import { Category } from '@/@types/category';
 import CategoryController from '@/controllers/categories/contoller';
 import ProductController from '@/controllers/products/controller';

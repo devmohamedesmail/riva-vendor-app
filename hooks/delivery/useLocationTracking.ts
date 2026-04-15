@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { startLocationTracking } from "../services/locationService";
+import { startLocationTracking } from "@/services/locationService";
 
 export default function useLocationTracking() {
 

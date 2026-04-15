@@ -1,6 +1,6 @@
 import React from 'react'
 import { Image, View ,Text} from 'react-native'
-import { useSetting } from '@/hooks/useSetting'
+import { useSetting } from '@/hooks/common/useSetting'
 
 export default function Logo() {
   const { settings } = useSetting()

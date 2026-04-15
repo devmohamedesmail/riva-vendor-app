@@ -1,7 +1,7 @@
 import Button from '@/components/ui/button';
 import Input from '@/components/ui/input';
 import { config } from '@/constants/config';
-import { useAuth } from '@/hooks/useAuth';
+import { useAuth } from '@/hooks/auth/useAuth';
 import AntDesign from '@expo/vector-icons/AntDesign';
 import Feather from '@expo/vector-icons/Feather';
 import axios from 'axios';

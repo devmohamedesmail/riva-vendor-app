@@ -1,4 +1,4 @@
-import { useLanguage } from '@/hooks/useLangauge';
+import { useLanguage } from '@/hooks/common/useLangauge';
 import { useColorScheme } from 'nativewind';
 import React from 'react';
 import { useTranslation } from 'react-i18next';

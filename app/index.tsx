@@ -1,6 +1,6 @@
 import Layout from "@/components/ui/layout";
 import Splash from "@/components/ui/splash";
-import { useAuth } from "@/hooks/useAuth";
+import { useAuth } from "@/hooks/auth/useAuth";
 import { router } from "expo-router";
 import React, { useEffect, useRef, useState } from "react";
 

@@ -1,7 +1,7 @@
 import LanguageToggle from '@/components/ui/language-toggle'
 import Logo from '@/components/ui/logo'
 import ThemeToggle from '@/components/ui/theme-toggle'
-import { useSetting } from '@/hooks/useSetting'
+import { useSetting } from '@/hooks/common/useSetting'
 import { Ionicons } from '@expo/vector-icons'
 import { LinearGradient } from 'expo-linear-gradient'
 import React, { useEffect, useRef } from 'react'

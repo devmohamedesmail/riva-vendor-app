@@ -1,5 +1,5 @@
 import BottomPaper from '@/components/ui/bottom-paper';
-import { useSetting } from "@/hooks/useSetting";
+import { useSetting } from "@/hooks/common/useSetting";
 import BottomSheet from "@gorhom/bottom-sheet";
 import Constants from "expo-constants";
 import React, { useEffect, useRef } from "react";
