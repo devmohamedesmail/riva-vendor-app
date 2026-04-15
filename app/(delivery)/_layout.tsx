@@ -7,7 +7,7 @@ import { useTranslation } from 'react-i18next'
 
 export default function Layout() {
     const { colorScheme } = useColorScheme()
-    const { t } = useTranslation();
+    const { t, i18n } = useTranslation();
     return (
         <Tabs screenOptions={{
             headerShown: false,
@@ -17,10 +17,10 @@ export default function Layout() {
                 backgroundColor: colorScheme === "dark" ? '#000' : '#fff',
                 borderTopWidth: 1,
                 borderTopColor: colorScheme === "dark" ? '#000' : '#e5e7eb',
-
-                // paddingTop: 8,
-                // paddingBottom: 10,
-                // height: 70,
+            },
+            tabBarLabelStyle: {
+                    fontFamily: i18n.language === 'ar' ? 'Cairo_400Regular' : 'Poppins_400Regular',
+                    fontSize: 9,
             },
         }}>
             <Tabs.Screen

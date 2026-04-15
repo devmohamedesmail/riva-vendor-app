@@ -10,6 +10,7 @@ export interface Setting {
 
   version: string
   vendor_version: string
+  vendor_force_update: boolean
   description: string
 
   url: string

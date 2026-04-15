@@ -1,7 +1,9 @@
 import { Ionicons } from '@expo/vector-icons';
 import React from 'react'
-import { Text, View } from 'react-native';
+import { View } from 'react-native';
 import { useTranslation } from 'react-i18next';
+import Text from '@/components/ui/text';
+
 
 export default function EmptyNotification() {
     const { t } = useTranslation();

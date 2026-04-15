@@ -1,20 +1,24 @@
 import Header from '@/components/ui/header'
 import Layout from '@/components/ui/layout'
-import { config } from '@/constants/config'
-import { useQuery } from '@tanstack/react-query'
-import axios from 'axios'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
-import { View, FlatList, ActivityIndicator } from 'react-native'
+import { FlatList , RefreshControl } from 'react-native'
 import NoOrders from '@/components/screens/orders/no-orders'
-import colors from '@/constants/colors'
 import OrderCard from '@/components/ui/order/order-card'
 import useDialyOrder from '@/hooks/orders/useDialyOrder'
 import Loading from '@/components/ui/loading'
+import Text from '@/components/ui/text'
 
 export default function DailyOrders() {
     const { t } = useTranslation();
     const {data , isLoading , error , refetch} = useDialyOrder()
+    const [refreshing, setRefreshing] = React.useState(false);
+
+    const onRefresh = React.useCallback(async() => {
+        setRefreshing(true);
+        await refetch();
+        setRefreshing(false);
+    }, []);
 
 
 
@@ -23,12 +27,14 @@ export default function DailyOrders() {
     return (
         <Layout>
             <Header title={t('orders.dailyOrders')} />
-
             {isLoading ? (
-               <Loading />
+                <Loading />
             ) : (
                 <FlatList
-                    data={data || []}
+                    refreshControl={
+                        <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+                    }
+                    data={data?.data || []}
                     keyExtractor={(item) => item.order_group_id}
                     renderItem={({ item }) => <OrderCard order={item} />} 
                     ListEmptyComponent={<NoOrders />}

@@ -1,12 +1,10 @@
 import React, { useState, useEffect } from 'react'
-import ButtonIcon from './button-icon'
+import ButtonIcon from '@/components/ui/button-icon'
 import { Ionicons } from '@expo/vector-icons'
 import { useRouter } from 'expo-router'
 import { useStore } from '@/hooks/useStore'
-import useFetch from '@/hooks/useFetch'
 import { io, Socket } from "socket.io-client"
 import * as Notifications from 'expo-notifications'
-import { useTranslation } from 'react-i18next'
 import { useQuery } from '@tanstack/react-query'
 import axios from 'axios'
 import useVehicle from '@/hooks/delivery/useVehicle'

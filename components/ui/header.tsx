@@ -2,11 +2,12 @@ import FontAwesome from '@expo/vector-icons/FontAwesome'
 import { useRouter } from 'expo-router'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
-import { Text, View } from 'react-native'
+import { View } from 'react-native'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
-import BackButton from './back-button'
-import ButtonIcon from './button-icon'
-import NotificationIcon from './notification-icon'
+import BackButton from '@/components/ui/back-button'
+import ButtonIcon from '@/components/ui/button-icon'
+import Text from '@/components/ui/text'
+import NotificationIcon from '../screens/notifications/notification-icon'
 
 
 export default function Header({ title, backButton = true }: { title?: string, backButton?: boolean }) {

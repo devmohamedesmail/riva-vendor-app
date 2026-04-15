@@ -1,13 +1,11 @@
-import EmptyNotification from '@/components/ui/empty-notification';
+import EmptyNotification from '@/components/screens/notifications/empty-notification';
 import Header from '@/components/ui/header';
 import Layout from '@/components/ui/layout';
-import NotificationItem from '@/components/ui/notification-item';
+import NotificationItem from '@/components/screens/notifications/notification-item';
 import { config } from '@/constants/config';
 import { useAuth } from '@/hooks/useAuth';
-import useFetch from '@/hooks/useFetch';
 import { useQuery } from '@tanstack/react-query';
 import axios from 'axios';
-import { useLocalSearchParams } from 'expo-router';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { FlatList, View } from 'react-native';
@@ -16,12 +14,7 @@ import { FlatList, View } from 'react-native';
 
 export default function Notifications() {
   const { t } = useTranslation();
-  const { notifiable_id, notifiable_type } = useLocalSearchParams();
   const { auth } = useAuth()
-  // const { data, loading } = useFetch(
-  //   `/notifications?target_type=store&target_id=${notifiable_id}`
-  // );
-
 
   const target_type =
     auth?.user?.role?.role === "store_owner"

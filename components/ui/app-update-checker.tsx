@@ -16,17 +16,22 @@ export default function AppUpdateChecker() {
 
 
 
-    useEffect(() => {
-        checkUpdate();
-    }, []);
+   useEffect(() => {
+        const timer = setTimeout(() => {
+            checkUpdate();
+        }, 5000);
+
+        return () => clearTimeout(timer);
+    }, [settings]);
 
     const checkUpdate = () => {
         if (!settings?.vendor_version || !version) return;
 
         // console.log("current:", version);
         // console.log("latest:", settings.vendor_version);
+         const isForceUpdate = settings?.vendor_force_update;
 
-        if (version !== settings.vendor_version) {
+        if (isForceUpdate) {
             bottomSheetRef.current?.expand();
         }
     };

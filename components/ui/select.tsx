@@ -3,8 +3,9 @@ import { Ionicons } from '@expo/vector-icons'
 import { useColorScheme } from 'nativewind'
 import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { FlatList, Text, TouchableOpacity, View } from 'react-native'
+import { FlatList, Pressable, TouchableOpacity, View } from 'react-native'
 import Modal from 'react-native-modal'
+import Text from '@/components/ui/text'
 
 interface DropdownOption {
   label: string
@@ -52,7 +53,7 @@ export default function Select({
         </Text>
       )}
 
-      <TouchableOpacity
+      <Pressable
         onPress={() => !disabled && setIsModalVisible(true)}
         disabled={disabled}
         className={`
@@ -81,7 +82,7 @@ export default function Select({
           size={20}
           color={colorScheme === 'dark' ? '#9CA3AF' : '#6B7280'}
         />
-      </TouchableOpacity>
+      </Pressable>
 
       {error && (
         <View className='flex-row items-center mt-2 px-1'>
@@ -154,7 +155,7 @@ export default function Select({
             )}
           />
 
-          <TouchableOpacity
+          <Pressable
             onPress={() => setIsModalVisible(false)}
             className="p-4 border-t border-gray-200 dark:border-gray-700"
           >
@@ -163,7 +164,7 @@ export default function Select({
             >
               {t("common.close")}
             </Text>
-          </TouchableOpacity>
+          </Pressable>
         </View>
       </Modal>
     </View>
