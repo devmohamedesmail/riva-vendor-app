@@ -8,8 +8,8 @@ import Constants from 'expo-constants';
 Notifications.setNotificationHandler({
   handleNotification: async () => ({
     shouldShowAlert: true,
-    shouldShowBanner: true, // بدل shouldShowAlert
-    shouldShowList: true,   // جديد لإظهار الإشعار في قائمة الإشعارات
+    shouldShowBanner: true, 
+    shouldShowList: true,  
     shouldPlaySound: true,
     shouldSetBadge: true,
   }),
@@ -58,7 +58,7 @@ export default function usePushNotifications() {
 
       const token = (await Notifications.getExpoPushTokenAsync({ projectId })).data;
       setExpoPushToken(token);
-      console.log('Expo Push Token:', token);
+      // console.log('Expo Push Token:', token);
     };
 
     registerForPushNotifications();

@@ -32,13 +32,18 @@ export default function NotificationIcon() {
                 trigger: null,
             });
         });
-
+        s.on("reconnect", () => {
+            console.log("socket reconnected");
+            refetch();
+        });
         return () => {
             s.disconnect();
         };
     }, [store?.id]);
 
 
+   
+  
     return (
         <ButtonIcon
             count={data?.length}

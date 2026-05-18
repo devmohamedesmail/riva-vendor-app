@@ -50,10 +50,15 @@ function RootNavigation() {
     const { expoPushToken } = usePushNotifications();
     const { auth } = useAuth();
     useLocationTracking();
-    startLocationTracking();
+    // startLocationTracking();
+     useEffect(() => {
+        if (auth?.token) {
+            startLocationTracking();
+        }
+    }, [auth?.token]);
 
     useEffect(() => {
-        if (!expoPushToken) return;
+         if (!expoPushToken || !auth?.token) return;
 
         fetch(`${config.URL}/devices/devices/register`, {
             method: "POST",
@@ -67,7 +72,6 @@ function RootNavigation() {
             }),
 
         });
-        console.log(auth?.token)
-    }, [expoPushToken]);
+    }, [expoPushToken,auth?.token]);
     return <Stack screenOptions={{ headerShown: false }} />;
 }
