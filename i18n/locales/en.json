@@ -45,7 +45,9 @@
     "justNow": "Just now",
     "minute": "minute",
     "hour": "hour",
-    "day": "day"
+    "day": "day",
+    "call": "Call",
+    "chat": "Chat"
   },
   "auth": {
     "email": "Email",
@@ -199,7 +201,8 @@
     "dialy-orders": "Dialy Orders",
     "statusUpdatedSuccessfully": "Status updated successfully",
     "statusUpdateFailed": "Failed to update status",
-    "no_items_details": "Order details not available"
+    "no_items_details": "Order details not available",
+    "search_placeholder": "Write customers name or phone"
   },
   "colors": {
     "black": "Black",

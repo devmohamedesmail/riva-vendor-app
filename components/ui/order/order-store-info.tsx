@@ -1,8 +1,9 @@
 import React from 'react'
-import { View } from 'react-native'
+import { View, Linking } from 'react-native'
 import { Ionicons } from '@expo/vector-icons'
 import Text from '@/components/ui/text'
 import { useTranslation } from 'react-i18next'
+import Button from '@/components/ui/button'
 
 export default function OrderStoreInfo({ order }: { order: any }) {
     const { t } = useTranslation();
@@ -20,6 +21,24 @@ export default function OrderStoreInfo({ order }: { order: any }) {
             <Text className="text-gray-800 dark:text-gray-200 text-sm font-medium" numberOfLines={1}>
                 {order?.store?.phone}
             </Text>
+
+            <View className="flex-row items-center justify-between mt-2 gap-2">
+                <Button
+                    title={t('common.call')}
+                    onPress={() => Linking.openURL(`tel:${order?.store?.phone}`)}
+                    variant="primary"
+                    size='sm'
+                    className='w-1/2'
+                    icon={<Ionicons name="call-outline" size={14} color="#fff" />} />
+
+                <Button
+                    title={t('common.chat')}
+                    onPress={() => Linking.openURL(`https://wa.me/+2${order?.store?.phone}`)}
+                    variant="success"
+                    size='sm'
+                    className='w-1/2 '
+                    icon={<Ionicons name="chatbox-outline" size={14} color="#fff" />} />
+            </View>
         </View>
     )
 }

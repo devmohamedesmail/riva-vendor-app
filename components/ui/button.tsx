@@ -3,7 +3,7 @@ import { Pressable, View, ActivityIndicator } from 'react-native'
 import clsx from 'clsx'
 import Text from '@/components/ui/text';
 
-type ButtonVariant = 'primary' | 'danger' | 'outline'
+type ButtonVariant = 'primary' | 'danger' | 'outline' | 'secondary' | 'success' | 'warning' | 'info'
 type ButtonSize = 'sm' | 'md' | 'lg'
 
 interface ButtonProps {
@@ -41,7 +41,11 @@ export default function Button({
 
         // 🎨 Variants
         variant === 'primary' && 'bg-primary',
+        variant === 'secondary' && 'bg-green-600',
+        variant === 'success' && 'bg-green-600',
         variant === 'danger' && 'bg-red-600',
+        variant === 'warning' && 'bg-yellow-500',
+        variant === 'info' && 'bg-blue-500',
         variant === 'outline' &&
           'border border-primary bg-transparent',
 

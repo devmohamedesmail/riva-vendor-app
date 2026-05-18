@@ -45,7 +45,9 @@
     "justNow": "الآن",
     "minute": "دقيقة",
     "hour": "ساعة",
-    "day": "يوم"
+    "day": "يوم",
+    "call": "اتصل",
+    "chat": "محادثة"
   },
   "auth": {
     "email": "البريد الإلكتروني",
@@ -200,7 +202,8 @@
     "dialy-orders": "طلبات اليوم",
     "statusUpdatedSuccessfully": "تم تحديث الحالة بنجاح",
     "statusUpdateFailed": "فشل تحديث الحالة",
-    "no_items_details": "تفاصيل الطلب غير متاحة"
+    "no_items_details": "تفاصيل الطلب غير متاحة",
+    "search_placeholder": "اكتب اسم العميل أو رقمه"
   },
   "driver": {
     "homeTitle": "الصفحة الرئيسية للسائق",
