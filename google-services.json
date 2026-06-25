@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "592523257163",
+    "project_id": "riva-app-f4ac6",
+    "storage_bucket": "riva-app-f4ac6.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:592523257163:android:45d86953b039ff4566f4ce",
+        "android_client_info": {
+          "package_name": "com.dev.mohamed.esmail.tawsilaagent"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBSlqOhF5IwxjUBUvU2TlYT0L-AWLv4Qds"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

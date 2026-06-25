@@ -360,7 +360,8 @@
     "simple_product": "منتج بسيط",
     "variable_product": "منتج متغير",
     "simple_product_description": "منتج بسعر واحد بدون خيارات متعددة",
-    "variable_product_description": "منتج بخيارات متعددة (الحجم، اللون، إلخ)"
+    "variable_product_description": "منتج بخيارات متعددة (الحجم، اللون، إلخ)",
+    "search_placeholder": "البحث في المنتجات..."
   },
   "notifications": {
     "title": "الإشعارات",
@@ -609,7 +610,8 @@
     "password_mismatch": "كلمات المرور غير متطابقة",
     "password_changed_success": "تم تغيير كلمة المرور بنجاح",
     "password_changed_failed": "فشل تغيير كلمة المرور",
-    "admin": " ( مدير )"
+    "admin": " ( مدير )",
+    "check_updates": "التحقق من التحديثات"
   },
   "network": {
     "noConnection": "لا يوجد اتصال بالإنترنت",

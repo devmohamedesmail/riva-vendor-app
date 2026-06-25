@@ -12,8 +12,6 @@ import { Ionicons } from "@expo/vector-icons";
 import {
   FlatList,
   Text,
-  TextInput,
-  TouchableOpacity,
   View,
 } from "react-native";
 

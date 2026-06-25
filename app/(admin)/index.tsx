@@ -35,7 +35,7 @@ export default function AdminIndex() {
         {
             title: t('orders.all-orders'),
             icon: 'receipt',
-            count: orders?.data?.orders?.length,
+            count: orders?.data?.pagination?.total_orders,
             color: 'bg-green-700',
             onPress: () => router.push('/(admin)/orders')
         },

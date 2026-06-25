@@ -23,7 +23,7 @@ export default function RootLayout() {
 
 
 
-    // const { expoPushToken } = usePushNotifications();
+    const { expoPushToken } = usePushNotifications();
     const [ready, setReady] = useState(false);
     useEffect(() => {
         initI18n().then(() => setReady(true));
@@ -47,22 +47,31 @@ export default function RootLayout() {
 
 
 function RootNavigation() {
-
+    const { expoPushToken } = usePushNotifications();
     const { auth } = useAuth();
-
-    usePushNotifications();
-
     useLocationTracking();
-
+    // startLocationTracking();
     useEffect(() => {
-
         if (auth?.token) {
             startLocationTracking();
         }
-
     }, [auth?.token]);
 
-    return (
-        <Stack screenOptions={{ headerShown: false }} />
-    );
+    useEffect(() => {
+        if (!expoPushToken || !auth?.token) return;
+
+        fetch(`${config.URL}/devices/devices/register`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${auth?.token}`,
+            },
+            body: JSON.stringify({
+                pushToken: expoPushToken,
+                platform: Platform.OS,
+            }),
+
+        });
+    }, [expoPushToken, auth?.token]);
+    return <Stack screenOptions={{ headerShown: false }} />;
 }

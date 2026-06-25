@@ -12,7 +12,9 @@ export default function useOrders() {
                 Authorization: `Bearer ${auth?.token}`,
             },
         }).then(res => res.data),
+       
     })
+    
     return {
         orders: data,
         isLoading,

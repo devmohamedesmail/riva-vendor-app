@@ -313,7 +313,8 @@
     "simple_product": "Simple Product",
     "variable_product": "Variable Product",
     "simple_product_description": "Product with a single price and no variations",
-    "variable_product_description": "Product with multiple variations (size, color, etc.)"
+    "variable_product_description": "Product with multiple variations (size, color, etc.)",
+    "search_placeholder": "Search products..."
   },
   "notifications": {
     "title": "Notifications",
@@ -563,7 +564,8 @@
     "password_mismatch": "Passwords do not match",
     "password_changed_success": "Password changed successfully",
     "password_changed_failed": "Failed to change password",
-    "admin": " (Admin)"
+    "admin": " (Admin)",
+    "check_updates": "Check for Updates"
   },
   "network": {
     "noConnection": "No Internet Connection",

@@ -43,6 +43,11 @@ export default function AccountOptionsSection() {
             onPress: () => Linking.openURL(`tel:${settings?.phone}`),
             icon: <AntDesign name="phone" size={20} color='red' />
         },
+        {
+            title: t('account.check_updates'),
+            onPress: () => Linking.openURL(`https://play.google.com/store/apps/details?id=com.dev.mohamed.esmail.tawsilaagent`),
+            icon: <AntDesign name="reload" size={20} color='red' />
+        },
     ]
 
 
