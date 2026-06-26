@@ -11,7 +11,7 @@ import useDialyOrder from '@/hooks/orders/useDialyOrder';
 
 export default function AdminIndex() {
     const { t } = useTranslation();
-    const { orders, isLoading, refetch } = useOrders()
+    const { orders, isLoading, refetch,pagination } = useOrders()
     const { data: dialyOrders, isLoading: isLoadingDialy, error, refetch: refetchDialy } = useDialyOrder()
     const [refreshing, setRefreshing] = React.useState(false);
     const router = useRouter();
@@ -35,7 +35,7 @@ export default function AdminIndex() {
         {
             title: t('orders.all-orders'),
             icon: 'receipt',
-            count: orders?.data?.pagination?.total_orders,
+            count: pagination?.total_orders ?? 0,
             color: 'bg-green-700',
             onPress: () => router.push('/(admin)/orders')
         },
